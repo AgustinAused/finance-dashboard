@@ -45,7 +45,7 @@ export default function FormLogin() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="w-full max-w-md p-6shadow-lg rounded-lg space-y-4"
+      className="w-full max-w-md rounded-lg space-y-4"
     >
       <h2 className="text-2xl font-bold text-center">Login</h2>
       <div>
