@@ -1,8 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import AuthApi from '@/api/AuthApi';
+import login from '@/api/AuthApi'; // Importar el módulo AuthApi
 import { FaEye, FaEyeSlash } from 'react-icons/fa'; // Importar íconos de Font Awesome
+import { useRouter } from 'next/navigation';
 
 export default function FormLogin() {
   const [formData, setFormData] = useState({
@@ -13,6 +14,7 @@ export default function FormLogin() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const router = useRouter();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -32,10 +34,13 @@ export default function FormLogin() {
     }
 
     try {
-      const response = await AuthApi.login(formData.email, formData.password);
+      const response = await login(formData.email, formData.password);
       setSuccess(true);
       setLoading(false);
       console.log('Login successful:', response);
+      if(success){
+        router.push('/dashboard')
+      }
     } catch (err) {
       setError(err.response?.data?.message || 'Login failed. Please try again.');
       setLoading(false);

@@ -12,24 +12,28 @@ function Dashboard() {
 
   useEffect(() => {
     const fetchData = async () => {
-      let periodValue = year; // Por defecto, si es anual solo necesitamos el año
-
+      let periodValue = year; 
+  
+      // Verifica si el periodo es mensual o trimestral, y agrega la opción seleccionada
       if (selectedPeriod === 'monthly' && selectedOption) {
-        periodValue = `${selectedOption}-${year}`; // Ejemplo: 'Enero-2025'
+        periodValue = `${selectedOption} ${year}`; 
       } else if (selectedPeriod === 'quarterly' && selectedOption) {
-        periodValue = `${selectedOption}-${year}`; // Ejemplo: 'Q1-2025'
+        periodValue = `${selectedOption} ${year}`; 
+      } else if (selectedPeriod === 'anual') {
+        periodValue = `${year}`; 
       }
-
+  
       try {
-        const data = await getCashFlowDefault(periodValue); // Llamada a la API con el valor del periodo
-        setFinances(data.data);
+        const data = await getCashFlowDefault(periodValue); 
+        setFinances(data.data); 
       } catch (error) {
         console.error('Error fetching financial data', error);
       }
     };
-
+  
     fetchData();
   }, [selectedPeriod, selectedOption, year]); // Dependemos del periodo, la opción y el año
+  
 
   return (
     <div>
@@ -40,6 +44,7 @@ function Dashboard() {
         selectedOption={selectedOption}
         setSelectedOption={setSelectedOption}
         setYear={setYear}
+        year={year}
       />
     </div>
   );

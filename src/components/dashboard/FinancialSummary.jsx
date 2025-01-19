@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { FaDollarSign, FaArrowUp, FaArrowDown, FaBalanceScale } from 'react-icons/fa';
 
 function FinancialSummary({
   finances,
@@ -7,7 +8,9 @@ function FinancialSummary({
   selectedOption,
   setSelectedOption,
   setYear,
+  year
 }) {
+
   const quarters = ['Q1', 'Q2', 'Q3', 'Q4'];
   const months = [
     'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
@@ -16,7 +19,7 @@ function FinancialSummary({
 
   const handlePeriodChange = (event) => {
     setSelectedPeriod(event.target.value);
-    setSelectedOption(null); // Resetear la opción seleccionada cuando cambia el periodo
+    setSelectedOption(""); // Limpiar la opción cuando el periodo cambia
   };
 
   const handleOptionChange = (event) => {
@@ -28,52 +31,90 @@ function FinancialSummary({
   };
 
   return (
-    <div>
-      <div className="filter flex justify-end mb-4">
-        {/* Filtro de año */}
-        <input
-          type="number"
-          value={finances.year || new Date().getFullYear()}
-          onChange={handleYearChange}
-          className="p-2 rounded-md bg-gray-200"
-        />
+    <div className="p-6 min-h-screen">
+      <div className="filter flex justify-between items-center mb-6">
+        <div className="flex gap-4">
+          {/* Filtro de año */}
+          <input
+            type="number"
+            value={year}
+            onChange={(e) => setYear(parseInt(e.target.value, 10))}
+            className="p-2 rounded-md border border-gray-600 bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring focus:ring-blue-500"
+            placeholder="Año"
+          />
 
-        {/* Filtro de periodo */}
-        <select onChange={handlePeriodChange} value={selectedPeriod} className="p-2 rounded-md bg-gray-200">
-          <option value="anual">Anual</option>
-          <option value="quarterly">Trimestral</option>
-          <option value="monthly">Mensual</option>
-        </select>
-
-        {/* Filtro de trimestre o mes */}
-        {selectedPeriod !== 'anual' && (
-          <select onChange={handleOptionChange} value={selectedOption} className="p-2 ml-2 rounded-md bg-gray-200">
-            <option value="" disabled>
-              Seleccionar {selectedPeriod === 'quarterly' ? 'Trimestre' : 'Mes'}
-            </option>
-            {(selectedPeriod === 'quarterly' ? quarters : months).map((option, index) => (
-              <option key={index} value={option}>
-                {option}
-              </option>
-            ))}
+          {/* Filtro de periodo */}
+          <select
+            onChange={handlePeriodChange}
+            value={selectedPeriod}
+            className="p-2 rounded-md border border-gray-600 bg-gray-800 text-white focus:outline-none focus:ring focus:ring-blue-500"
+          >
+            <option value="anual">Anual</option>
+            <option value="quarterly">Trimestral</option>
+            <option value="monthly">Mensual</option>
           </select>
-        )}
+
+          {/* Filtro de trimestre o mes */}
+          {selectedPeriod !== 'anual' && (
+            <select
+              onChange={handleOptionChange}
+              value={selectedOption || ""}
+              className="p-2 rounded-md border border-gray-600 bg-gray-800 text-white focus:outline-none focus:ring focus:ring-blue-500"
+            >
+              <option value="" disabled>
+                Seleccionar {selectedPeriod === "quarterly" ? "Trimestre" : "Mes"}
+              </option>
+              {(selectedPeriod === "quarterly" ? quarters : months).map((option, index) => (
+                <option key={index} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
+          )}
+        </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
-  <div className="stat-card p-4 bg-gray-800 text-white rounded-lg shadow-md">
-    <h2 className="text-xl font-bold">Total Income</h2>
-    <p className="text-lg">${finances.income}</p>
-  </div>
-  <div className="stat-card p-4 bg-gray-800 text-white rounded-lg shadow-md">
-    <h2 className="text-xl font-bold">Total Expenses</h2>
-    <p className="text-lg">${finances.expenses}</p>
-  </div>
-  <div className="stat-card p-4 bg-gray-800 text-white rounded-lg shadow-md">
-    <h2 className="text-xl font-bold">Balance</h2>
-    <p className="text-lg">{finances.netCashFlow > 0 ? `$${finances.netCashFlow}` : `-$${Math.abs(finances.netCashFlow)}`}</p>
-  </div>
-</div>
+      {/* Estadísticas */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* Total Income */}
+        <div className="stat-card p-6 bg-green-500 text-white rounded-lg shadow-lg flex items-center">
+          <div className="icon bg-green-600 p-3 rounded-full">
+            <FaArrowUp className="text-2xl" />
+          </div>
+          <div className="ml-4">
+            <h2 className="text-lg font-bold">Total Income</h2>
+            <p className="text-2xl font-semibold">${finances.income}</p>
+          </div>
+        </div>
+
+        {/* Total Expenses */}
+        <div className="stat-card p-6 bg-red-500 text-white rounded-lg shadow-lg flex items-center">
+          <div className="icon bg-red-600 p-3 rounded-full">
+            <FaArrowDown className="text-2xl" />
+          </div>
+          <div className="ml-4">
+            <h2 className="text-lg font-bold">Total Expenses</h2>
+            <p className="text-2xl font-semibold">${finances.expenses}</p>
+          </div>
+        </div>
+
+        {/* Net Balance */}
+        <div
+          className={`stat-card p-6 ${finances.netCashFlow >= 0 ? 'bg-blue-500' : 'bg-gray-500'} text-white rounded-lg shadow-lg flex items-center`}
+        >
+          <div className="icon bg-blue-600 p-3 rounded-full">
+            <FaBalanceScale className="text-2xl" />
+          </div>
+          <div className="ml-4">
+            <h2 className="text-lg font-bold">Net Balance</h2>
+            <p className="text-2xl font-semibold">
+              {finances.netCashFlow >= 0
+                ? `$${finances.netCashFlow}`
+                : `-$${Math.abs(finances.netCashFlow)}`}
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
