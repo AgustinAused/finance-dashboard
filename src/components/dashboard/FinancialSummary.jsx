@@ -32,7 +32,8 @@ function FinancialSummary({
 
   return (
     <div className="p-6 min-h-screen">
-      <div className="filter flex justify-between items-center mb-6">
+      <div className="filter flex justify-end items-center mb-6">
+        
         <div className="flex gap-4">
           {/* Filtro de año */}
           <input
