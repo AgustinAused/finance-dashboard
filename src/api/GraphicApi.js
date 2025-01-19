@@ -13,7 +13,6 @@ export async function getMonthlyData(companyId) {
                 'Authorization': `Bearer ${token.value}`
                 }
 });
-console.log(response.data)
 return response.data;
     
 }
