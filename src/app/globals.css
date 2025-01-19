@@ -2,10 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-
 @layer utilities {
   .ring-primary {
     --tw-ring-color: var(--primary);
+  }
+
+  .ring-accent {
+    --tw-ring-color: var(--accent);
   }
 
   .text-primary {
@@ -16,24 +19,24 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --primary: #1e3a8a; /* Azul Marino */
-  --primary-light: #3b82f6; /* Azul más claro */
-  --secondary: #374151; /* Gris oscuro */
-  --accent: #10b981; /* Verde para destacar */
-  --danger: #ef4444; /* Rojo para errores */
-  --border-color: #e5e7eb; /* Gris claro para bordes */
+  --primary: #1e3a8a;
+  --primary-light: #3b82f6;
+  --secondary: #374151;
+  --accent: #10b981;
+  --danger: #ef4444;
+  --border-color: #e5e7eb;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #000000;
     --foreground: #ededed;
-    --primary: #1d4ed8; /* Azul Marino en oscuro */
-    --primary-light: #2563eb; /* Azul más claro en oscuro */
-    --secondary: #6b7280; /* Gris medio en oscuro */
-    --accent: #22c55e; /* Verde brillante */
-    --danger: #f87171; /* Rojo brillante */
-    --border-color: #374151; /* Gris oscuro para bordes */
+    --primary: #1d4ed8;
+    --primary-light: #2563eb;
+    --secondary: #6b7280;
+    --accent: #22c55e;
+    --danger: #f87171;
+    --border-color: #374151;
   }
 }
 
@@ -41,16 +44,15 @@ body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Estilos generales para contenedores */
 .container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 1rem;
 }
 
-/* Botones */
 .btn {
   @apply px-4 py-2 font-medium rounded-md;
   background-color: var(--primary);
@@ -62,7 +64,15 @@ body {
   background-color: var(--primary-light);
 }
 
-/* Formularios */
+/* .btn:focus {
+  @apply outline-none ring-2 ring-accent;
+} */
+
+.btn:disabled {
+  @apply cursor-not-allowed opacity-50;
+  background-color: var(--secondary);
+}
+
 .input {
   @apply w-full px-4 py-2 border rounded-md;
   border-color: var(--border-color);
@@ -70,11 +80,19 @@ body {
   color: var(--foreground);
 }
 
-.input:focus {
-  @apply outline-none ring-2 ring-primary;
+.input:hover {
+  border-color: var(--primary-light);
 }
 
-/* Sombras para cajas */
+.input:focus {
+  @apply outline-none ring-2 ring-primary border-transparent;
+}
+
+.input:disabled {
+  @apply bg-gray-100 text-gray-500 cursor-not-allowed;
+  border-color: var(--border-color);
+}
+
 .card {
   @apply p-6 rounded-lg shadow-lg;
   background-color: var(--background);
@@ -87,7 +105,6 @@ body {
   transform: translateY(-4px);
 }
 
-/* Títulos */
 .title {
   @apply text-3xl font-bold;
   color: var(--primary);
@@ -98,22 +115,26 @@ body {
   color: var(--secondary);
 }
 
-/* Listas */
 .list-item {
   @apply px-4 py-2 rounded-md;
   background-color: var(--primary-light);
   color: var(--background);
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .list-item:hover {
   background-color: var(--primary);
+  color: var(--foreground);
 }
 
-/* Enlaces */
 a {
   @apply underline text-primary;
 }
 
 a:hover {
   color: var(--primary-light);
+}
+
+a:focus {
+  @apply outline-none ring-2 ring-accent;
 }
