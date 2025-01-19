@@ -37,7 +37,7 @@ function FinancialSummary({
           {/* Filtro de año */}
           <input
             type="number"
-            value={year}
+            value={year || ''}
             onChange={(e) => setYear(parseInt(e.target.value, 10))}
             className="p-2 rounded-md border border-gray-600 bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring focus:ring-blue-500"
             placeholder="Año"
