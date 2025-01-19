@@ -35,7 +35,7 @@ export default async function login(email, password) {
 }
 
 
-export async function logout({params}) {
+export async function logout() {
     try {
         // Obtiene la instancia de cookies
         const cookiesInstance = await cookies();
