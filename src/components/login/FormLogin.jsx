@@ -38,9 +38,7 @@ export default function FormLogin() {
       setSuccess(true);
       setLoading(false);
       console.log('Login successful:', response);
-      if(success){
-        router.push('/dashboard')
-      }
+      router.push('/dashboard')
     } catch (err) {
       setError(err.response?.data?.message || 'Login failed. Please try again.');
       setLoading(false);
