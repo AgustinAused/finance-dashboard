@@ -142,3 +142,8 @@ a:focus {
 .text-input {
   @apply text-black;
 }
+
+
+link {
+  @apply text-primary;
+}

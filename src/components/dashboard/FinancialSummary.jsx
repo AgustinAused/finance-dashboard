@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { FaDollarSign, FaArrowUp, FaArrowDown, FaBalanceScale } from 'react-icons/fa';
 
 function FinancialSummary({
@@ -31,7 +31,7 @@ function FinancialSummary({
   };
 
   return (
-    <div className="p-6 min-h-screen">
+    <div className="p-6">
       <div className="filter flex justify-end items-center mb-6">
         
         <div className="flex gap-4">

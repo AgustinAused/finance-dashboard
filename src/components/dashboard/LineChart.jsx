@@ -37,10 +37,12 @@ const LineChart = ({ data }) => {
 
   const options = {
     responsive: true,
-    plugins: {
-      legend: {
-        position: 'top',
-      },
+      maintainAspectRatio: false, // Deshabilita mantener el aspecto para personalizar altura
+      plugins: {
+        legend: {
+          display: true,
+          position: 'top',
+        },
       title: {
         display: true,
         text: 'Tendencia de Ingresos y Gastos',
@@ -54,8 +56,8 @@ const LineChart = ({ data }) => {
   };
 
   return (
-    <div>
-      <Line data={chartData} options={options} className='bg-gray-100 rounded-lg shadow-lg ' />
+    <div style={{ width: '50%', height: '300px' }} className='bg-gray-100 rounded-lg shadow-lg'> 
+      <Line data={chartData} options={options}/>
     </div>
   );
 };

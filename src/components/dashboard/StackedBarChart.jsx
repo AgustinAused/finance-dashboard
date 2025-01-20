@@ -36,11 +36,13 @@ const StackedBarChart = ({ data = [] }) => {
   };
 
   const options = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'top',
-      },
+      responsive: true,
+      maintainAspectRatio: false, // Deshabilita mantener el aspecto para personalizar altura
+      plugins: {
+        legend: {
+          display: true,
+          position: 'top',
+        },
       title: {
         display: true,
         text: 'Ingresos y Gastos por Mes',
@@ -58,8 +60,8 @@ const StackedBarChart = ({ data = [] }) => {
   };
 
   return (
-    <div>
-      <Bar data={chartData} options={options}  className='bg-gray-100 rounded-lg shadow-lg'/>
+    <div style={{ width: '50%', height: '300px' }} className='bg-gray-100 rounded-lg shadow-lg'> {/* Establece el tamaño del contenedor */}
+      <Bar data={chartData} options={options} />
     </div>
   );
 };
