@@ -2,6 +2,93 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  :root {
+    --background: #f5f5f5; /* Blanco suave */
+    --foreground: #1a1a1a; /* Negro elegante */
+    --primary: #0a1128; /* Azul marino oscuro */
+    --primary-light: #001f54; /* Azul marino claro */
+    --secondary: #6c757d; /* Gris medio */
+    --accent: #007bff; /* Azul profesional para destacar */
+    --danger: #d9534f; /* Rojo oscuro para alertas */
+    --border-color: #ced4da; /* Gris claro para bordes */
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --background: #121212; /* Negro profundo */
+      --foreground: #eaeaea; /* Blanco suave para contraste */
+      --primary: #001f54; /* Azul marino oscuro */
+      --primary-light: #0a305c; /* Azul marino ligeramente más claro */
+      --secondary: #495057; /* Gris oscuro */
+      --accent: #339af0; /* Azul claro profesional */
+      --danger: #c82333; /* Rojo apagado para alertas */
+      --border-color: #343a40; /* Gris muy oscuro para bordes */
+    }
+  }
+
+  body {
+    color: var(--foreground);
+    background: var(--background);
+    font-family: Arial, Helvetica, sans-serif;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  h1 {
+    @apply text-3xl font-bold;
+  }
+
+  h2 {
+    @apply text-xl font-medium;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply px-4 py-2 font-medium rounded-md;
+    background-color: var(--primary);
+    color: var(--foreground);
+    transition: all 0.2s ease-in-out;
+  }
+
+  .btn:hover {
+    background-color: var(--primary-light);
+  }
+
+  .btn:focus {
+    @apply outline-none ring-2 ring-accent;
+  }
+
+  .btn:disabled {
+    @apply cursor-not-allowed opacity-50;
+    background-color: var(--secondary);
+  }
+
+  .card {
+    @apply p-6 rounded-lg shadow-lg;
+    background-color: var(--background);
+    color: var(--foreground);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  }
+
+  .card:hover {
+    @apply shadow-2xl;
+    transform: translateY(-4px);
+  }
+
+  .list-item {
+    @apply px-4 py-2 rounded-md;
+    background-color: var(--primary-light);
+    color: var(--background);
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  .list-item:hover {
+    background-color: var(--primary);
+    color: var(--foreground);
+  }
+}
+
 @layer utilities {
   .ring-primary {
     --tw-ring-color: var(--primary);
@@ -14,136 +101,40 @@
   .text-primary {
     color: var(--primary);
   }
-}
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-  --primary: #1e3a8a;
-  --primary-light: #3b82f6;
-  --secondary: #374151;
-  --accent: #10b981;
-  --danger: #ef4444;
-  --border-color: #e5e7eb;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #000000;
-    --foreground: #ededed;
-    --primary: #1d4ed8;
-    --primary-light: #2563eb;
-    --secondary: #6b7280;
-    --accent: #22c55e;
-    --danger: #f87171;
-    --border-color: #374151;
+  .text-input {
+    @apply text-black;
   }
-}
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
+  .input {
+    @apply w-full px-4 py-2 border rounded-md;
+    border-color: var(--border-color);
+    background-color: var(--background);
+    color: var(--foreground);
+  }
 
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 1rem;
-}
+  .input:hover {
+    border-color: var(--primary-light);
+  }
 
-.btn {
-  @apply px-4 py-2 font-medium rounded-md;
-  background-color: var(--primary);
-  color: var(--foreground);
-  transition: all 0.2s ease-in-out;
-}
+  .input:focus {
+    @apply outline-none ring-2 ring-primary border-transparent;
+  }
 
-.btn:hover {
-  background-color: var(--primary-light);
-}
+  .input:disabled {
+    @apply bg-gray-100 text-gray-500 cursor-not-allowed;
+    border-color: var(--border-color);
+  }
 
-.btn:focus {
-  @apply outline-none ring-2 ring-accent;
-}
+  a {
+    @apply  text-primary;
+  }
 
-.btn:disabled {
-  @apply cursor-not-allowed opacity-50;
-  background-color: var(--secondary);
-}
+  a:hover {
+    color: var(--primary-light);
+  }
 
-.input {
-  @apply w-full px-4 py-2 border rounded-md;
-  border-color: var(--border-color);
-  background-color: var(--background);
-  color: var(--foreground);
-}
-
-.input:hover {
-  border-color: var(--primary-light);
-}
-
-.input:focus {
-  @apply outline-none ring-2 ring-primary border-transparent;
-}
-
-.input:disabled {
-  @apply bg-gray-100 text-gray-500 cursor-not-allowed;
-  border-color: var(--border-color);
-}
-
-.card {
-  @apply p-6 rounded-lg shadow-lg;
-  background-color: var(--background);
-  color: var(--foreground);
-  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-}
-
-.card:hover {
-  @apply shadow-2xl;
-  transform: translateY(-4px);
-}
-
-.title {
-  @apply text-3xl font-bold;
-  color: var(--primary);
-}
-
-.subtitle {
-  @apply text-xl font-medium;
-  color: var(--secondary);
-}
-
-.list-item {
-  @apply px-4 py-2 rounded-md;
-  background-color: var(--primary-light);
-  color: var(--background);
-  transition: background-color 0.2s ease, color 0.2s ease;
-}
-
-.list-item:hover {
-  background-color: var(--primary);
-  color: var(--foreground);
-}
-
-a {
-  @apply underline text-primary;
-}
-
-a:hover {
-  color: var(--primary-light);
-}
-
-a:focus {
-  @apply outline-none ring-2 ring-accent;
-}
-
-.text-input {
-  @apply text-black;
-}
-
-
-link {
-  @apply text-primary;
+  a:focus {
+    @apply outline-none ring-2 ring-accent;
+  }
 }

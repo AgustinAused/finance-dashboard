@@ -1,17 +1,16 @@
-'use client';
-
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+'use client'
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from 'next/navigation';
 import verifyToken from "@/api/CookieApi";
-import { logout } from "@/api/AuthApi";
+
+
 
 export default function Navbar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
-    // Llamamos a la API para verificar si el usuario está logueado
     const CookieApi = async () => {
       const response = await verifyToken();
       const data = response;
@@ -21,16 +20,15 @@ export default function Navbar() {
   }, []);
 
   const handleLogout = async () => {
-    // Llamamos a la función logout de authApi
-    await logout(); // Asegúrate de que 'logout' esté importado desde el archivo authApi.js
-    setIsLoggedIn(false); // Cambiar el estado de login
-    router.push("/"); // Redirige al usuario al inicio o login
+    await logout();
+    setIsLoggedIn(false);
+    router.push("/");
   };
 
   return (
     <nav className="bg-gray-800 text-white p-4 flex justify-between items-center">
       {/* Logo */}
-      <div className="text-xl font-bold">
+      <div className="text-xl font-bold text-white">
         <a href="/dashboard">Logo</a>
       </div>
 
@@ -38,15 +36,15 @@ export default function Navbar() {
       <div className="flex items-center">
         {isLoggedIn ? (
           <>
-            <Link href="/dashboard" className="mr-4">
+            <Link href="/dashboard" className="text-white hover:text-primary mr-4">
               Dashboard
             </Link>
-            <Link href="/profile" className="mr-4">
+            <Link href="/profile" className="text-white hover:text-primary mr-4">
               Profile
             </Link>
             <button
               onClick={handleLogout}
-              className="bg-red-600 px-4 py-2 rounded text-white"
+              className="bg-danger text-white px-4 py-2 rounded hover:bg-red-600"
             >
               Logout
             </button>
