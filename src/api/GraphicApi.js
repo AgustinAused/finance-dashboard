@@ -12,7 +12,18 @@ export async function getMonthlyData(companyId) {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token.value}`
                 }
-});
-return response.data;
-    
+        });
+    return response.data;
+}
+
+export async function getIncomeExpenseByCategory(companyId) {
+    const cookiesInstance = await cookies();
+    const token = cookiesInstance.get('access_token');
+    const response = await apiClient.get('/api/graphic/income-expense-categories?companyId=' + companyId,{ 
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token.value}`
+            }
+    });
+    return response.data;
 }

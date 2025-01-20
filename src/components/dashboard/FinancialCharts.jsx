@@ -1,21 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import { getMonthlyData } from '@/api/GraphicApi';
+import { getIncomeExpenseByCategory, getMonthlyData } from '@/api/GraphicApi';
 import StackedBarChart from './StackedBarChart';
 import LineChart from './LineChart';
 import { CircularProgress } from '@mui/material';
+import DonutChart from './DonutChart';
 
 const FinancialCharts = ({ companyId }) => {
   const [dataSC, setDataSC] = useState([]);
   const [dataLC, setDataLC] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [dataDC, setDataDC] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const responseSC = await getMonthlyData(companyId);
+        const responceDC = await getIncomeExpenseByCategory(companyId);
         setDataSC(responseSC);
         setDataLC(responseSC); // Placeholder para dataLC
+        setDataDC(responceDC);
         setLoading(false);
       } catch (error) {
         console.error('Error fetching financial data for charts', error);
@@ -52,6 +56,8 @@ const FinancialCharts = ({ companyId }) => {
           <StackedBarChart data={dataSC} />
         {/* Gráfico de líneas */}
           <LineChart data={dataLC} />
+        {/* Grafico de dona egreso y ingreso por categoria */}
+          <DonutChart listCategories={dataDC} />
       </div>
     </div>
   );
