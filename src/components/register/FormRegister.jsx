@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { addNewUser } from '@/api/UserApi';
 
 export default function FormRegister() {
   const [formData, setFormData] = useState({
@@ -9,8 +10,10 @@ export default function FormRegister() {
     first_name: '',
     last_name: '',
     companyName: '',
-    password: '',
   });
+
+  // 
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -21,7 +24,8 @@ export default function FormRegister() {
     e.preventDefault();
 
     try {
-      console.log('Registering with:', formData);
+      const response = await addNewUser(formData);
+      console.log(response);
       alert('Registration successful!');
     } catch (error) {
       console.error('Error registering:', error);
@@ -35,7 +39,7 @@ export default function FormRegister() {
       className="w-full max-w-md rounded-lg space-y-4"
     >
       <h2 className="text-2xl font-bold text-center">Register</h2>
-      {['username', 'email', 'first_name', 'last_name', 'companyName', 'password'].map((field) => (
+      {['username', 'email', 'first_name', 'last_name', 'companyName'].map((field) => (
         <div key={field}>
           <label htmlFor={field} className="block text-sm font-medium capitalize">
             {field.replace('_', ' ')}

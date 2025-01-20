@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from 'next/navigation';
 import verifyToken from "@/api/CookieApi";
+import { logout } from "@/api/AuthApi";
 
 
 

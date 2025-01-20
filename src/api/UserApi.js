@@ -4,13 +4,7 @@ import apiClient from "./ClientAxios";
 
 export const addNewUser = async (data) => {
     try {
-        const cookiesInstance = await cookies()
-        const token = cookiesInstance.get('access_token');
-        const response = await apiClient.post("/api/user/", data, {
-            headers: {
-                Authorization: `Bearer ${token.value}`,
-            },
-            });
+        const response = await apiClient.post("/api/user/", data);
         return response.data;
     } catch (error) {
         console.error(error);
