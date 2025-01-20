@@ -55,7 +55,7 @@ const DonutChart = ({ listCategories }) => {
   };
 
   return (
-    <div style={{ position: 'relative', height: '400px', width: '100%' }}>
+    <div style={{height: '400px', width:"30%"}}>
       <Doughnut data={data} options={chartOptions} />
     </div>
   );

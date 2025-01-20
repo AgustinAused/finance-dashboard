@@ -60,7 +60,7 @@ const StackedBarChart = ({ data = [] }) => {
   };
 
   return (
-    <div style={{ width: '50%', height: '300px' }} className='bg-gray-100 rounded-lg shadow-lg'> {/* Establece el tamaño del contenedor */}
+    <div style={{ height: '400px', width:"30%"}} > {/* Establece el tamaño del contenedor */}
       <Bar data={chartData} options={options} />
     </div>
   );

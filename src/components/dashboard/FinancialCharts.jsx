@@ -51,7 +51,7 @@ const FinancialCharts = ({ companyId }) => {
     <div className="p-5">
       <h2 className="text-center text-xl font-semibold mb-5">Gráficos Financieros</h2>
 
-      <div className="flex items-center gap-4 p-5">
+      <div className="flex items-center justify-between p-5">
         {/* Gráfico de barras apiladas */}
           <StackedBarChart data={dataSC} />
         {/* Gráfico de líneas */}
