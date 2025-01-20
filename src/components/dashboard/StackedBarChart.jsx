@@ -59,7 +59,7 @@ const StackedBarChart = ({ data = [] }) => {
 
   return (
     <div>
-      <Bar data={chartData} options={options} />
+      <Bar data={chartData} options={options}  className='bg-gray-100 rounded-lg shadow-lg'/>
     </div>
   );
 };

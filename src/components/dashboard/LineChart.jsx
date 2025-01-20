@@ -55,7 +55,7 @@ const LineChart = ({ data }) => {
 
   return (
     <div>
-      <Line data={chartData} options={options} />
+      <Line data={chartData} options={options} className='bg-gray-100 rounded-lg shadow-lg ' />
     </div>
   );
 };
