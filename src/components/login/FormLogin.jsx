@@ -1,7 +1,7 @@
 'use client';
 
 import {useState } from 'react';
-import login from '@/api/AuthApi'; // Importar el módulo AuthApi
+import { login } from '@/api/AuthApi'; // Importar el módulo AuthApi
 import { FaEye, FaEyeSlash } from 'react-icons/fa'; // Importar íconos de Font Awesome
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';

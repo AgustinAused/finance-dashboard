@@ -1,8 +1,9 @@
 'use client'
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Link from "next/link";
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
+import { logout } from "@/api/AuthApi";
 
 
 
@@ -11,6 +12,7 @@ export default function Navbar() {
   const router = useRouter();
 
   const handleLogout = async () => {
+    await logout();
     logoutUser();
     router.push("/");
   };

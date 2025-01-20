@@ -3,7 +3,7 @@
 import apiClient from './ClientAxios';
 import { cookies } from 'next/headers';
 
-export default async function login(email, password) {
+export async function login(email, password) {
     try {
         // Realiza la solicitud al backend para autenticar al usuario
         const data = {
