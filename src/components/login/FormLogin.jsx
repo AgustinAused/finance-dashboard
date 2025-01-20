@@ -1,19 +1,18 @@
 'use client';
 
-import { useState } from 'react';
+import {useState } from 'react';
 import login from '@/api/AuthApi'; // Importar el módulo AuthApi
 import { FaEye, FaEyeSlash } from 'react-icons/fa'; // Importar íconos de Font Awesome
 import { useRouter } from 'next/navigation';
+import { useAuth } from '@/context/AuthContext';
 
 export default function FormLogin() {
-  const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-  });
+  const [formData, setFormData] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [success, setSuccess] = useState(false)
+  const { loginUser } = useAuth();
   const router = useRouter();
 
   const handleChange = (e) => {
@@ -25,22 +24,15 @@ export default function FormLogin() {
     e.preventDefault();
     setLoading(true);
     setError('');
-    setSuccess(false);
-
-    if (!formData.email || !formData.password) {
-      setError('Please fill in all fields.');
-      setLoading(false);
-      return;
-    }
 
     try {
       const response = await login(formData.email, formData.password);
-      setSuccess(true);
-      setLoading(false);
-      console.log('Login successful:', response);
-      router.push('/dashboard')
+      loginUser(); // Actualiza el estado global
+      setSuccess(true)
+      router.push('/dashboard');
     } catch (err) {
       setError(err.response?.data?.message || 'Login failed. Please try again.');
+    } finally {
       setLoading(false);
     }
   };

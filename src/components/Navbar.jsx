@@ -2,38 +2,25 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from 'next/navigation';
-import verifyToken from "@/api/CookieApi";
-import { logout } from "@/api/AuthApi";
+import { useAuth } from '@/context/AuthContext';
 
 
 
 export default function Navbar() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { isLoggedIn, logoutUser } = useAuth();
   const router = useRouter();
 
-  useEffect(() => {
-    const CookieApi = async () => {
-      const response = await verifyToken();
-      const data = response;
-      setIsLoggedIn(data.isLoggedIn);
-    };
-    CookieApi();
-  }, []);
-
   const handleLogout = async () => {
-    await logout();
-    setIsLoggedIn(false);
+    logoutUser();
     router.push("/");
   };
 
   return (
     <nav className="bg-gray-800 text-white p-4 flex justify-between items-center">
-      {/* Logo */}
       <div className="text-xl font-bold text-white">
-        <a href="/dashboard">Logo</a>
+        <Link href="/dashboard">Logo</Link>
       </div>
 
-      {/* Opciones del Navbar, solo si el usuario está logueado */}
       <div className="flex items-center">
         {isLoggedIn ? (
           <>
@@ -51,8 +38,9 @@ export default function Navbar() {
             </button>
           </>
         ) : (
-          <>
-          </>
+          <Link href="/login" className="text-white hover:text-primary mr-4">
+            Login
+          </Link>
         )}
       </div>
     </nav>
