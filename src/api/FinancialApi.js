@@ -6,7 +6,6 @@ import { cookies } from "next/headers";
 export async function getCashFlowDefault(period) {
     const cookiesInstance = await cookies();
     const token = cookiesInstance.get('access_token');
-    // console.log(period)
   try {
     const response = await apiClient.get(`/api/financial/cashflow?period=${period}`, {
       headers: {
@@ -15,10 +14,10 @@ export async function getCashFlowDefault(period) {
         'Accept': '*/*',                   // Aceptar todos los tipos de respuesta
       },
     });
-    // console.log(response.data);
     return response.data;
   } catch (error) {
-    console.error('Error:', error.response ? error.response.data : error.message);
+    console.error(error.response ? error.response.data : error.message);
+    return Error(error.message)
   }
 }
 

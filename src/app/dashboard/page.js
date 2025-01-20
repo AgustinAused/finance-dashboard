@@ -19,8 +19,8 @@ function Dashboard() {
   useEffect(() => {
     const fetchData = async () => {
       let periodValue = year; 
-
-      // Verifica si el periodo es mensual o trimestral, y agrega la opción seleccionada
+  
+      // Construye el valor del periodo según la selección
       if (selectedPeriod === 'monthly' && selectedOption) {
         periodValue = `${selectedOption} ${year}`; 
       } else if (selectedPeriod === 'quarterly' && selectedOption) {
@@ -28,21 +28,35 @@ function Dashboard() {
       } else if (selectedPeriod === 'anual') {
         periodValue = `${year}`; 
       }
-
+  
       try {
-        const data = await getCashFlowDefault(periodValue);
+        const cashflowData = await getCashFlowDefault(periodValue);
         const userData = await getProfile();
-        
-        // Verifica si userData y userData.data existen
+  
+        // Asegura que los datos sean válidos antes de actualizar el estado
         if (userData && userData.data) {
           setUser(userData.data);
         } else {
           console.error('User data not found');
         }
-
-        setFinances(data.data); 
-
+  
+        // Aquí, si la respuesta de la API no es válida, mantiene los datos anteriores
+        if (cashflowData && cashflowData.data) {
+          setFinances(cashflowData.data);
+        } else {
+          console.error('Financial data not found');
+          // Mantener los datos anteriores en caso de error
+          setFinances(prevFinances => ({
+            ...prevFinances, 
+          }));
+        }
+  
       } catch (error) {
+        setError(true);
+        // En caso de error, asegurarse de mantener los datos anteriores
+        setFinances(prevFinances => ({
+          ...prevFinances, 
+        }));
         console.error('Error fetching financial data', error);
       } finally {
         setLoading(false); // Al finalizar, actualiza el estado de carga
