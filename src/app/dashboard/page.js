@@ -44,7 +44,7 @@ function Dashboard() {
         if (cashflowData && cashflowData.data) {
           setFinances(cashflowData.data);
         } else {
-          console.error('Financial data not found');
+          // console.error('Financial data not found');
           // Mantener los datos anteriores en caso de error
           setFinances(prevFinances => ({
             ...prevFinances, 
@@ -57,7 +57,7 @@ function Dashboard() {
         setFinances(prevFinances => ({
           ...prevFinances, 
         }));
-        console.error('Error fetching financial data', error);
+        // console.error('Error fetching financial data', error);
       } finally {
         setLoading(false); // Al finalizar, actualiza el estado de carga
       }

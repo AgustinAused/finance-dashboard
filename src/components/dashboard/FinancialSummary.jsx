@@ -1,5 +1,10 @@
-import React from 'react';
-import { FaDollarSign, FaArrowUp, FaArrowDown, FaBalanceScale } from 'react-icons/fa';
+import React from "react";
+import {
+  FaDollarSign,
+  FaArrowUp,
+  FaArrowDown,
+  FaBalanceScale,
+} from "react-icons/fa";
 
 function FinancialSummary({
   finances,
@@ -8,13 +13,22 @@ function FinancialSummary({
   selectedOption,
   setSelectedOption,
   setYear,
-  year
+  year,
 }) {
-
-  const quarters = ['Q1', 'Q2', 'Q3', 'Q4'];
+  const quarters = ["Q1", "Q2", "Q3", "Q4"];
   const months = [
-    'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
-    'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre',
+    "Enero",
+    "Febrero",
+    "Marzo",
+    "Abril",
+    "Mayo",
+    "Junio",
+    "Julio",
+    "Agosto",
+    "Septiembre",
+    "Octubre",
+    "Noviembre",
+    "Diciembre",
   ];
 
   const handlePeriodChange = (event) => {
@@ -33,12 +47,11 @@ function FinancialSummary({
   return (
     <div className="p-6">
       <div className="filter flex justify-end items-center mb-6">
-        
         <div className="flex gap-4">
           {/* Filtro de año */}
           <input
             type="number"
-            value={year || ''}
+            value={year || ""}
             onChange={(e) => setYear(parseInt(e.target.value, 10))}
             className="p-2 rounded-md border border-gray-600 bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring focus:ring-blue-500"
             placeholder="Año"
@@ -56,20 +69,23 @@ function FinancialSummary({
           </select>
 
           {/* Filtro de trimestre o mes */}
-          {selectedPeriod !== 'anual' && (
+          {selectedPeriod !== "anual" && (
             <select
               onChange={handleOptionChange}
               value={selectedOption || ""}
               className="p-2 rounded-md border border-gray-600 bg-gray-800 text-white focus:outline-none focus:ring focus:ring-blue-500"
             >
               <option value="" disabled>
-                Seleccionar {selectedPeriod === "quarterly" ? "Trimestre" : "Mes"}
+                Seleccionar{" "}
+                {selectedPeriod === "quarterly" ? "Trimestre" : "Mes"}
               </option>
-              {(selectedPeriod === "quarterly" ? quarters : months).map((option, index) => (
-                <option key={index} value={option}>
-                  {option}
-                </option>
-              ))}
+              {(selectedPeriod === "quarterly" ? quarters : months).map(
+                (option, index) => (
+                  <option key={index} value={option}>
+                    {option}
+                  </option>
+                )
+              )}
             </select>
           )}
         </div>
@@ -101,7 +117,9 @@ function FinancialSummary({
 
         {/* Net Balance */}
         <div
-          className={`stat-card p-6 ${finances.netCashFlow >= 0 ? 'bg-blue-500' : 'bg-gray-500'} text-white rounded-lg shadow-lg flex items-center`}
+          className={`stat-card p-6 ${
+            finances.netCashFlow >= 0 ? "bg-blue-500" : "bg-gray-500"
+          } text-white rounded-lg shadow-lg flex items-center`}
         >
           <div className="icon bg-blue-600 p-3 rounded-full">
             <FaBalanceScale className="text-2xl" />
@@ -110,8 +128,8 @@ function FinancialSummary({
             <h2 className="text-lg font-bold">Net Balance</h2>
             <p className="text-2xl font-semibold">
               {finances.netCashFlow >= 0
-                ? `$${finances.netCashFlow}`
-                : `-$${Math.abs(finances.netCashFlow)}`}
+                ? `$${finances.netCashFlow.toFixed(2)}`
+                : `-$${Math.abs(finances.netCashFlow).toFixed(2)}`}
             </p>
           </div>
         </div>
