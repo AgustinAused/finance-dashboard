@@ -40,9 +40,7 @@ export default function Navbar() {
             </button>
           </>
         ) : (
-          <Link href="/login" className="text-white hover:text-primary mr-4">
-            Login
-          </Link>
+          <></>
         )}
       </div>
     </nav>
