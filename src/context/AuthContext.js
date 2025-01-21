@@ -1,6 +1,6 @@
 'use client';
 import React, { createContext, useState, useContext, useEffect } from 'react';
-import verifyToken from '@/api/CookieApi';
+import { verifyToken } from '@/api/AuthApi';
 
 const AuthContext = createContext();
 
