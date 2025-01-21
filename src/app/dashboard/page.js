@@ -35,6 +35,7 @@ function Dashboard() {
   
         // Asegura que los datos sean válidos antes de actualizar el estado
         if (userData && userData.data) {
+          console.log(userData)
           setUser(userData.data);
         } else {
           console.error('User data not found');
