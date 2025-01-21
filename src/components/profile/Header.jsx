@@ -38,6 +38,9 @@ export default function ProfileHeader({ user, onEditClick }) {
             <strong>Estado: </strong>
             {user.active ? 'Activo' : 'Inactivo'}
           </p>
+          <button className="btn" onClick={onEditClick}>
+          Editar Perfil
+        </button>
         </div>
       </section>
 
@@ -59,19 +62,6 @@ export default function ProfileHeader({ user, onEditClick }) {
           </p>
         </div>
       </section>
-
-      {/* Botones de acción */}
-      <div className="flex gap-4 mt-4">
-        <button className="btn" onClick={onEditClick}>
-          Editar Perfil
-        </button>
-        <button
-          className="btn bg-danger hover:bg-danger/90"
-          onClick={() => console.log('Cerrar sesión')}
-        >
-          Cerrar Sesión
-        </button>
-      </div>
     </div>
   );
 }
