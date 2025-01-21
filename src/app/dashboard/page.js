@@ -64,7 +64,10 @@ function Dashboard() {
       }
     };
 
+    // Si no hay cambios significativos, no ejecutar la llamada
+  if (selectedPeriod && year && (!selectedOption || selectedOption)) {
     fetchData();
+  }
   }, [selectedPeriod, selectedOption, year]); // Dependemos del periodo, la opción y el año
 
   // Si los datos están siendo cargados, muestra el loader de MUI
