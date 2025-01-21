@@ -28,6 +28,35 @@ export async function getProfile() {
     }
 }
 
+export async function updateProfile(data) {
+    try {
+        const cookiesInstance = await cookies();
+        const token = cookiesInstance.get("access_token");
+        const response = await apiClient.put("/api/user/", data, {
+            headers: {
+                Authorization: `Bearer ${token.value}`,
+            },
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Error in UpdateProfile:", error.message)
+    }
+}
 
+
+export async function changePassword(data) {
+    try {
+        const cookiesInstance = await cookies();
+        const token = cookiesInstance.get("access_token");
+        const response = await apiClient.post("/api/user/change-password", data, {
+            headers: {
+                Authorization: `Bearer ${token.value}`,
+            },
+            });
+        return response.data;
+    } catch (error) {
+        console.error("Error in changePassword:", error.message)
+        }
+}
 
 

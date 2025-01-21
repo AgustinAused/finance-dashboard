@@ -57,7 +57,12 @@ export async function verifyToken() {
         return { isLoggedIn: false }
     }
     try {
-        const response = await apiClient.get('/api/auth/verifytoken?token=' + token.value);
+        const response = await apiClient.get('/api/auth/verifytoken?token=' + token.value,
+            {
+                headers: {
+                    Authorization: `Bearer ${token.value}`
+                }
+            });
         if (response.data.status !== "success") {
             throw new Error('Error en AuthApi.verifyToken: Token no válido');
         }
