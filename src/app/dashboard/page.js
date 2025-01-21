@@ -69,7 +69,7 @@ export default function Dashboard() {
   const handlePasswordChange = async () => {
     try {
       // Enviar la nueva contraseña al backend
-      await changePassword(newPassword);
+      // await changePassword(newPassword);
       setShowModal(false); // Cerrar el modal tras el cambio
     } catch (error) {
       setErrorMessage('Error al cambiar la contraseña');
@@ -111,7 +111,6 @@ export default function Dashboard() {
         onClose={() => { } /* No hacemos nada aquí para prevenir el cierre */}
         aria-labelledby="modal-title"
         aria-describedby="modal-description"
-        disableBackdropClick // Deshabilita el cierre al hacer clic fuera del modal
         disableEscapeKeyDown // Deshabilita el cierre al presionar la tecla "Esc"
       >
         <Box
