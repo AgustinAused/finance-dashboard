@@ -47,7 +47,7 @@ const EditForm = ({ user, onSave }) => {
 
   return (
     <form
-      className="max-w-lg mx-auto p-6 bg-white shadow-md rounded-lg"
+      className="max-w-lg mx-auto p-6 shadow-md rounded-lg"
       onSubmit={(e) => e.preventDefault()}
     >
       <h2 className="text-2xl font-semibold text-gray-700 mb-4">Editar Perfil</h2>
@@ -118,14 +118,14 @@ const EditForm = ({ user, onSave }) => {
           id="photo"
           type="url"
           name="photo"
-          value={userData.photo || ""}
+          value={userData.avatarUrl || ""}
           onChange={handleChange}
           placeholder="URL de la foto de perfil"
           className={`w-full p-2 mt-1 border rounded-md ${
-            errors.photo ? "border-red-500" : "border-gray-300"
+            errors.avatarUrl ? "border-red-500" : "border-gray-300"
           }`}
         />
-        {errors.photo && <p className="text-red-500 text-sm mt-1">{errors.photo}</p>}
+        {errors.avatarUrl && <p className="text-red-500 text-sm mt-1">{errors.avatarUrl}</p>}
       </div>
 
       <button
