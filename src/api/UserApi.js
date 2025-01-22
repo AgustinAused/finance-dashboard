@@ -48,7 +48,7 @@ export async function changePassword(data) {
     try {
         const cookiesInstance = await cookies();
         const token = cookiesInstance.get("access_token");
-        const response = await apiClient.post("/api/user/change-password", data, {
+        const response = await apiClient.put("/api/user/change-password", data, {
             headers: {
                 Authorization: `Bearer ${token.value}`,
             },

@@ -1,31 +1,35 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { getCashFlowDefault } from '@/api/FinancialApi'; // Importa la API
-import { getProfile, changePassword } from '@/api/UserApi'; // Importa la API para cambiar la contraseña
-import FinancialSummary from '@/components/dashboard/FinancialSummary'; // Importa el componente
-import FinancialCharts from '@/components/dashboard/FinancialCharts'; // Importa el componente de gráficos
-import CircularProgress from '@mui/material/CircularProgress'; // Importa CircularProgress de MUI
-import Box from '@mui/material/Box'; // Importa Box para centrar el loader
-import Modal from '@mui/material/Modal'; // Importa Modal de MUI
-import TextField from '@mui/material/TextField'; // Importa TextField para el formulario
-import Button from '@mui/material/Button'; // Importa Button de MUI
+import { getCashFlowDefault } from '@/api/FinancialApi';
+import { getProfile, changePassword } from '@/api/UserApi';
+import FinancialSummary from '@/components/dashboard/FinancialSummary';
+import FinancialCharts from '@/components/dashboard/FinancialCharts';
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
+import Modal from '@mui/material/Modal';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import Alert from '@mui/material/Alert'; // Importa el componente Alert
+import Snackbar from '@mui/material/Snackbar'; // Importa el componente Snackbar
 
 export default function Dashboard() {
   const [finances, setFinances] = useState({ income: 0, expenses: 0, netCashFlow: 0 });
-  const [selectedPeriod, setSelectedPeriod] = useState('anual'); // Periodo inicial (anual)
-  const [selectedOption, setSelectedOption] = useState(null); // Opción de mes o trimestre seleccionada
-  const [year, setYear] = useState(new Date().getFullYear()); // Año actual como valor predeterminado
+  const [selectedPeriod, setSelectedPeriod] = useState('anual');
+  const [selectedOption, setSelectedOption] = useState(null);
+  const [year, setYear] = useState(new Date().getFullYear());
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true); // Estado de carga
-  const [showModal, setShowModal] = useState(false); // Estado para mostrar el modal
-  const [newPassword, setNewPassword] = useState(''); // Nuevo valor de la contraseña
-  const [errorMessage, setErrorMessage] = useState(''); // Mensaje de error
+  const [loading, setLoading] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+  const [newPassword, setNewPassword] = useState('');
+  const [success, setSuccess] = useState(false); // Controla la alerta de éxito
+  const [showSnackbar, setShowSnackbar] = useState(false); // Controla la visibilidad del Snackbar
+  const [snackbarMessage, setSnackbarMessage] = useState(''); // Mensaje del Snackbar
+  const [snackbarSeverity, setSnackbarSeverity] = useState(''); // Tipo de mensaje
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
       let periodValue = year;
-
-      // Construye el valor del periodo según la selección
       if (selectedPeriod === 'monthly' && selectedOption) {
         periodValue = `${selectedOption} ${year}`;
       } else if (selectedPeriod === 'quarterly' && selectedOption) {
@@ -38,28 +42,23 @@ export default function Dashboard() {
         const cashflowData = await getCashFlowDefault(periodValue);
         const userData = await getProfile();
 
-        // Asegura que los datos sean válidos antes de actualizar el estado
         if (userData && userData.data) {
           setUser(userData.data);
-
-          // Si el usuario está inactivo, mostrar el modal
           if (!userData.data.active) {
-            setShowModal(true); // Mostrar el modal si el usuario no está activo
+            setShowModal(true);
           }
         }
 
-        // Aquí, si la respuesta de la API no es válida, mantiene los datos anteriores
         if (cashflowData && cashflowData.data) {
           setFinances(cashflowData.data);
         } else {
           setFinances(prevFinances => ({ ...prevFinances }));
         }
-
       } catch (error) {
         setErrorMessage('Error fetching data');
         setFinances(prevFinances => ({ ...prevFinances }));
       } finally {
-        setLoading(false); // Al finalizar, actualiza el estado de carga
+        setLoading(false);
       }
     };
 
@@ -68,15 +67,26 @@ export default function Dashboard() {
 
   const handlePasswordChange = async () => {
     try {
-      // Enviar la nueva contraseña al backend
-      // await changePassword(newPassword);
-      setShowModal(false); // Cerrar el modal tras el cambio
+      const data = {
+        newPassword: newPassword,
+        email: user.email,
+      };
+      await changePassword(data);
+      setShowModal(false); // Cierra el modal
+  
+      // Configura y muestra el Snackbar de éxito
+      setSnackbarMessage('¡Contraseña actualizada con éxito!');
+      setSnackbarSeverity('success'); // Tipo de mensaje
+      setShowSnackbar(true); // Muestra la notificación
     } catch (error) {
-      setErrorMessage('Error al cambiar la contraseña');
+      // Configura y muestra el Snackbar de error
+      setSnackbarMessage('Error al actualizar la contraseña. Intenta de nuevo.');
+      setSnackbarSeverity('error');
+      setShowSnackbar(true);
     }
   };
+  
 
-  // Si los datos están siendo cargados, muestra el loader de MUI
   if (loading) {
     return (
       <Box
@@ -108,10 +118,10 @@ export default function Dashboard() {
       {/* Modal de cambio de contraseña */}
       <Modal
         open={showModal}
-        onClose={() => { } /* No hacemos nada aquí para prevenir el cierre */}
+        onClose={() => {}}
         aria-labelledby="modal-title"
         aria-describedby="modal-description"
-        disableEscapeKeyDown // Deshabilita el cierre al presionar la tecla "Esc"
+        disableEscapeKeyDown
       >
         <Box
           sx={{
@@ -154,7 +164,22 @@ export default function Dashboard() {
           </div>
         </Box>
       </Modal>
+
+      {/* Alerta de éxito */}
+        <Snackbar
+        open={showSnackbar}
+        autoHideDuration={6000} // Tiempo que permanece visible (en ms)
+        onClose={() => setShowSnackbar(false)} // Cierra el Snackbar
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} // Posición
+      >
+        <Alert
+          onClose={() => setShowSnackbar(false)} // Opción para cerrar manualmente
+          severity={snackbarSeverity} // Tipo de alerta (success, error, etc.)
+          sx={{ width: '100%' }}
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </div>
   );
 }
-

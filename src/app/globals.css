@@ -19,11 +19,11 @@
       --background: #121212; /* Negro profundo */
       --foreground: #eaeaea; /* Blanco suave para contraste */
       --primary: #001f54; /* Azul marino oscuro */
-      --primary-light: #0a305c; /* Azul marino ligeramente más claro */
+      --primary-light: #0a305c; /* Azul ligeramente más claro */
       --secondary: #495057; /* Gris oscuro */
       --accent: #339af0; /* Azul claro profesional */
       --danger: #c82333; /* Rojo apagado para alertas */
-      --border-color: #343a40; /* Gris muy oscuro para bordes */
+      --border-color: #343a40; /* Gris oscuro para bordes */
     }
   }
 
@@ -44,35 +44,47 @@
 }
 
 @layer components {
-  #modal-title {
-    @apply text-2xl font-bold text-primary mb-4; /* Ajusta según tu preferencia */
+
+  .profile-section {
+    @apply p-6 mb-4 bg-background rounded-lg shadow-md;
   }
-  
+
+  .profile-section-title {
+    @apply text-lg font-medium mb-4 ;
+  }
+
+  .profile-section-content {
+    @apply text-sm text-foreground;
+  }
+
   .btn {
-    @apply px-4 py-2 font-medium rounded-md;
+    @apply px-4 py-2 font-medium rounded-md shadow-md;
     background-color: var(--primary);
-    color: var(--foreground);
-    transition: all 0.2s ease-in-out;
+    color:#eaeaea;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease-in-out;
   }
 
   .btn:hover {
     background-color: var(--primary-light);
+    transform: translateY(-2px);
   }
 
   .btn:focus {
-    @apply outline-none ring-2 ring-accent;
+    @apply outline-none ring-2;
+    --tw-ring-color: var(--accent);
   }
 
   .btn:disabled {
     @apply cursor-not-allowed opacity-50;
     background-color: var(--secondary);
+    color: var(--background);
   }
 
   .card {
     @apply p-6 rounded-lg shadow-lg;
     background-color: var(--background);
     color: var(--foreground);
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
   }
 
   .card:hover {
@@ -80,28 +92,15 @@
     transform: translateY(-4px);
   }
 
-  .list-item {
-    @apply px-4 py-2 rounded-md;
-    background-color: var(--primary-light);
-    color: var(--background);
-    transition: background-color 0.2s ease, color 0.2s ease;
-  }
-
-  .list-item:hover {
-    background-color: var(--primary);
+  .profile-header {
+    @apply flex items-center gap-4 p-6 rounded-md shadow-md;
+    background-color: var(--background);
     color: var(--foreground);
   }
 
-  .profile-header {
-    @apply flex items-center gap-4 bg-primary text-foreground px-6 py-4 rounded-md shadow-md;
-  }
-
   .profile-header-avatar {
-    @apply w-16 h-16 rounded-full border-2 border-accent;
-  }
-
-  .profile-header-info {
-    @apply flex flex-col;
+    @apply w-16 h-16 rounded-full border-2;
+    border-color: var(--accent);
   }
 
   .profile-header-info h1 {
@@ -111,22 +110,25 @@
   .profile-header-info h2 {
     @apply text-sm text-secondary;
   }
-
-  /* Nuevo estilo para las secciones del perfil */
-  .profile-section {
-    @apply p-6 mb-4 bg-background rounded-lg shadow-md;
-  }
-
-  .profile-section-title {
-    @apply text-lg font-medium text-primary mb-4;
-  }
-
-  .profile-section-content {
-    @apply text-sm text-foreground;
-  }
 }
 
 @layer utilities {
+  .text-primary {
+    color: var(--primary);
+  }
+
+  .bg-primary {
+    background-color: var(--primary);
+  }
+
+  .bg-primary-light {
+    background-color: var(--primary-light);
+  }
+
+  .text-secondary {
+    color: var(--secondary);
+  }
+
   .ring-primary {
     --tw-ring-color: var(--primary);
   }
@@ -135,19 +137,12 @@
     --tw-ring-color: var(--accent);
   }
 
-  .text-primary {
-    color: var(--primary);
-  }
-
-  .text-input {
-    @apply text-black;
-  }
-
   .input {
     @apply w-full px-4 py-2 border rounded-md;
     border-color: var(--border-color);
     background-color: var(--background);
     color: var(--foreground);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
   }
 
   .input:hover {
@@ -155,7 +150,8 @@
   }
 
   .input:focus {
-    @apply outline-none ring-2 ring-primary border-transparent;
+    @apply outline-none ring-2;
+    --tw-ring-color: var(--primary);
   }
 
   .input:disabled {
@@ -164,7 +160,7 @@
   }
 
   a {
-    @apply  text-primary;
+    @apply text-primary transition-colors duration-200;
   }
 
   a:hover {
@@ -172,14 +168,11 @@
   }
 
   a:focus {
-    @apply outline-none ring-2 ring-accent;
+    @apply outline-none ring-2;
+    --tw-ring-color: var(--accent);
   }
   .text-secondary {
     color: var(--secondary);
-  }
-
-  .bg-primary-dark {
-    background-color: var(--primary-light);
   }
 
   .shadow-primary {
