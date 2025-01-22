@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import { Button, TextField } from "@mui/material";
 
 const EditForm = ({ user, onSave }) => {
   const [userData, setUserData] = useState(user);
   const [errors, setErrors] = useState({});
+  const [file, setFile] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -10,6 +12,17 @@ const EditForm = ({ user, onSave }) => {
       ...prev,
       [name]: value,
     }));
+  };
+
+  const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0];
+    if (selectedFile) {
+      setFile(selectedFile);
+      setUserData((prev) => ({
+        ...prev,
+        photo: selectedFile.name, // Asigna el nombre del archivo para el ejemplo
+      }));
+    }
   };
 
   const validate = () => {
@@ -29,10 +42,8 @@ const EditForm = ({ user, onSave }) => {
       newErrors.email = "Ingresa un correo electrónico válido.";
     }
 
-    if (!userData.photo?.trim()) {
-      newErrors.photo = "La URL de la foto es obligatoria.";
-    } else if (!/^https?:\/\/.+\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(userData.photo)) {
-      newErrors.photo = "Ingresa una URL válida para la foto.";
+    if (!file) {
+      newErrors.photo = "La foto de perfil es obligatoria.";
     }
 
     setErrors(newErrors);
@@ -41,7 +52,13 @@ const EditForm = ({ user, onSave }) => {
 
   const handleSubmit = () => {
     if (validate()) {
-      onSave(userData); // Llama a la función de guardar con los datos válidos
+      const formData = new FormData();
+      formData.append("first_name", userData.first_name);
+      formData.append("last_name", userData.last_name);
+      formData.append("email", userData.email);
+      formData.append("photo", file);
+
+      onSave(formData); // Envía los datos del formulario al manejador
     }
   };
 
@@ -53,88 +70,76 @@ const EditForm = ({ user, onSave }) => {
       <h2 className="text-2xl font-semibold text-gray-700 mb-4">Editar Perfil</h2>
 
       <div className="mb-4">
-        <label htmlFor="first_name" className="block text-sm font-medium text-gray-700">
-          Nombre
-        </label>
-        <input
+        <TextField
           id="first_name"
-          type="text"
+          label="Nombre"
           name="first_name"
           value={userData.first_name || ""}
           onChange={handleChange}
-          placeholder="Nombre"
-          className={`w-full p-2 mt-1 border rounded-md ${
-            errors.first_name ? "border-red-500" : "border-gray-300"
-          }`}
+          fullWidth
+          error={!!errors.first_name}
+          helperText={errors.first_name}
         />
-        {errors.first_name && (
-          <p className="text-red-500 text-sm mt-1">{errors.first_name}</p>
-        )}
       </div>
 
       <div className="mb-4">
-        <label htmlFor="last_name" className="block text-sm font-medium text-gray-700">
-          Apellido
-        </label>
-        <input
+        <TextField
           id="last_name"
-          type="text"
+          label="Apellido"
           name="last_name"
           value={userData.last_name || ""}
           onChange={handleChange}
-          placeholder="Apellido"
-          className={`w-full p-2 mt-1 border rounded-md ${
-            errors.last_name ? "border-red-500" : "border-gray-300"
-          }`}
+          fullWidth
+          error={!!errors.last_name}
+          helperText={errors.last_name}
         />
-        {errors.last_name && (
-          <p className="text-red-500 text-sm mt-1">{errors.last_name}</p>
-        )}
       </div>
 
       <div className="mb-4">
-        <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-          Correo Electrónico
-        </label>
-        <input
+        <TextField
           id="email"
+          label="Correo Electrónico"
           type="email"
           name="email"
           value={userData.email || ""}
           onChange={handleChange}
-          placeholder="Correo electrónico"
-          className={`w-full p-2 mt-1 border rounded-md ${
-            errors.email ? "border-red-500" : "border-gray-300"
-          }`}
+          fullWidth
+          error={!!errors.email}
+          helperText={errors.email}
         />
-        {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
       </div>
 
       <div className="mb-4">
-        <label htmlFor="photo" className="block text-sm font-medium text-gray-700">
-          Foto de Perfil (URL)
+        <label htmlFor="photo" className="block text-sm font-medium text-gray-700 mb-1">
+          Foto de Perfil
         </label>
-        <input
-          id="photo"
-          type="url"
-          name="photo"
-          value={userData.avatarUrl || ""}
-          onChange={handleChange}
-          placeholder="URL de la foto de perfil"
-          className={`w-full p-2 mt-1 border rounded-md ${
-            errors.avatarUrl ? "border-red-500" : "border-gray-300"
-          }`}
-        />
-        {errors.avatarUrl && <p className="text-red-500 text-sm mt-1">{errors.avatarUrl}</p>}
+        <Button
+          variant="contained"
+          component="label"
+          className="mb-2"
+        >
+          Seleccionar Archivo
+          <input
+            id="photo"
+            type="file"
+            hidden
+            accept="image/*"
+            onChange={handleFileChange}
+          />
+        </Button>
+        {file && <p className="text-sm text-gray-600">{file.name}</p>}
+        {errors.photo && <p className="text-red-500 text-sm mt-1">{errors.photo}</p>}
       </div>
 
-      <button
+      <Button
         type="button"
         onClick={handleSubmit}
-        className="w-full py-2 px-4 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-md"
+        variant="contained"
+        color="primary"
+        fullWidth
       >
         Guardar Cambios
-      </button>
+      </Button>
     </form>
   );
 };

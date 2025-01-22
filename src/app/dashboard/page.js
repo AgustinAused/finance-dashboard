@@ -73,7 +73,7 @@ export default function Dashboard() {
       };
       await changePassword(data);
       setShowModal(false); // Cierra el modal
-  
+
       // Configura y muestra el Snackbar de éxito
       setSnackbarMessage('¡Contraseña actualizada con éxito!');
       setSnackbarSeverity('success'); // Tipo de mensaje
@@ -85,7 +85,7 @@ export default function Dashboard() {
       setShowSnackbar(true);
     }
   };
-  
+
 
   if (loading) {
     return (
@@ -118,9 +118,8 @@ export default function Dashboard() {
       {/* Modal de cambio de contraseña */}
       <Modal
         open={showModal}
-        onClose={() => {}}
+        onClose={() => { }}
         aria-labelledby="modal-title"
-        aria-describedby="modal-description"
         disableEscapeKeyDown
       >
         <Box
@@ -133,31 +132,28 @@ export default function Dashboard() {
             left: '50%',
             transform: 'translate(-50%, -50%)',
             width: 400,
-            boxShadow: 24,
-            padding: 3,
-            maxWidth: 400,
-            margin: 'auto',
-            backgroundColor: 'white',
-            borderRadius: 2,
           }}
+          className="modal-container"
         >
           <div>
-            <h2 id="modal-title">Cambiar por primer ingreso </h2>
+            <h2 className="modal-title">
+              Cambiar por primer ingreso
+            </h2>
             <TextField
               label="Nueva Contraseña"
               type="password"
               fullWidth
               variant="outlined"
               value={newPassword}
+              sx={{ marginBottom: '1rem' }}
               onChange={(e) => setNewPassword(e.target.value)}
-              sx={{ marginBottom: 2 }}
+              className="modal-input"
             />
-            {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+            {errorMessage && <p className="modal-error">{errorMessage}</p>}
             <Button
-              variant="contained"
-              color="primary"
-              fullWidth
+              className="modal-button"
               onClick={handlePasswordChange}
+              disabled={!newPassword.trim()}
             >
               Cambiar Contraseña
             </Button>
@@ -166,7 +162,7 @@ export default function Dashboard() {
       </Modal>
 
       {/* Alerta de éxito */}
-        <Snackbar
+      <Snackbar
         open={showSnackbar}
         autoHideDuration={6000} // Tiempo que permanece visible (en ms)
         onClose={() => setShowSnackbar(false)} // Cierra el Snackbar

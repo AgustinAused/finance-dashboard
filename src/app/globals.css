@@ -46,6 +46,62 @@
 
 @layer components {
 
+  .modal-container {
+    @apply p-6 rounded-lg shadow-lg;
+    background-color: var(--background);
+    color: var(--foreground);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  .modal-title {
+    @apply text-xl mb-2 font-bold;
+  }
+
+  .modal-input {
+    @apply w-full border rounded-md;
+    border-color: var(--border-color);
+    background-color: var(--background);
+    color: var(--foreground);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .modal-input:hover {
+    border-color: var(--primary-light);
+  }
+
+  .modal-input:focus {
+    @apply outline-none ring-2;
+    --tw-ring-color: var(--primary);
+  }
+
+  .modal-error {
+    @apply text-sm;
+    color: var(--danger);
+  }
+
+  .modal-button {
+    @apply px-4 py-2 w-full font-medium rounded-md shadow-md;
+    background-color: var(--primary);
+    color: var(--foreground);
+    transition: background-color 0.3s ease, transform 0.2s ease-in-out;
+  }
+
+  .modal-button:hover {
+    background-color: var(--primary-light);
+    transform: translateY(-2px);
+  }
+
+  .modal-button:focus {
+    @apply outline-none ring-2;
+    --tw-ring-color: var(--accent);
+  }
+
+  .modal-button:disabled {
+    @apply cursor-not-allowed opacity-50;
+    background-color: var(--secondary);
+    color: var(--background);
+  }
+
   .profile-section {
     @apply p-6 mb-4 rounded-lg shadow-md flex flex-col gap-4;
     /* background-color: var(--background); */
@@ -95,12 +151,10 @@
     @apply p-6 rounded-lg shadow-lg;
     background-color: var(--background);
     color: var(--foreground);
-    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
   }
 
   .card:hover {
     @apply shadow-2xl;
-    transform: translateY(-4px);
   }
 
   .profile-header {
