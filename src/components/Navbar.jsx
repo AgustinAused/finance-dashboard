@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { useTheme } from "@/context/ThemeContext";
 import { logout } from "@/api/AuthApi";
-import MaterialUISwitchComponent from '@/components/navbar/MaterialUISwitch';
+import MaterialUISwitchComponent from "@/components/navbar/MaterialUISwitch";
 
 export default function Navbar() {
   const { isLoggedIn, logoutUser } = useAuth();
@@ -22,9 +22,13 @@ export default function Navbar() {
     <nav className="bg-gray-800 text-white p-4 flex justify-between items-center">
       <div className="text-xl font-bold text-white">
         {isLoggedIn ? (
-          <Link href="/dashboard">Dashboard</Link>
+          <Link href="/dashboard">
+            <span>logo</span>
+          </Link>
         ) : (
-          <Link href="/">Home</Link>
+          <Link href="/">
+            <span>logo</span>
+          </Link>
         )}
       </div>
 
@@ -43,7 +47,10 @@ export default function Navbar() {
             >
               Profile
             </Link>
-            <MaterialUISwitchComponent isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
+            <MaterialUISwitchComponent
+              isDarkMode={isDarkMode}
+              toggleTheme={toggleTheme}
+            />
             <button
               onClick={handleLogout}
               className="bg-danger text-white px-4 py-2 rounded hover:bg-red-600"
