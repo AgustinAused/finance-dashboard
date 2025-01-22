@@ -20,7 +20,7 @@ export default function Navbar() {
 
   return (
     <nav className="bg-gray-800 p-4 flex justify-between items-center">
-      <div className="text-xl font-bold">
+      <div className="navbar-title">
         {isLoggedIn ? (
           <Link href="/dashboard">
             <p className="">Logo</p>
@@ -35,12 +35,12 @@ export default function Navbar() {
       <div className="flex items-center">
         {isLoggedIn ? (
           <>
-            <Link href="/dashboard" className="hover:text-primary mr-4">
+            <Link href="/dashboard" className="navbar-text">
               Dashboard
             </Link>
             <Link
               href="/profile"
-              className="hover:text-primary mr-4"
+              className="navbar-text"
             >
               Profile
             </Link>

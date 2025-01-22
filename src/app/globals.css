@@ -12,6 +12,8 @@
     --accent: #007bff; /* Azul profesional para destacar */
     --danger: #d9534f; /* Rojo oscuro para alertas */
     --border-color: #ced4da; /* Gris claro para bordes */
+
+    --navbar-color: #eaeaea;
   }
 
 
@@ -41,10 +43,6 @@
 
   h2 {
     @apply text-xl font-medium;
-  }
-  p {
-    @apply text-lg;
-    color: var(--foreground);
   }
 }
 
@@ -225,17 +223,14 @@
   }
 
   a {
-    @apply text-primary transition-colors duration-200;
+    @apply transition-colors duration-200;
+    color: var(--navbar-color);
   }
 
   a:hover {
-    color: var(--primary-light);
+    color: var(--accent);
   }
 
-  a:focus {
-    @apply outline-none ring-2;
-    --tw-ring-color: var(--accent);
-  }
   .text-secondary {
     color: var(--secondary);
   }
@@ -243,6 +238,15 @@
   .shadow-primary {
     --tw-shadow-color: var(--primary);
     --tw-shadow: 0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);
+  }
+  .navbar-title{
+    @apply text-2xl font-bold;
+    color: var(--navbar-color);
+  }
+
+  .navbar-text{
+    @apply text-lg  mr-4;
+    color: var(--navbar-color);
   }
 
 }
