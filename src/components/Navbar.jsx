@@ -23,11 +23,11 @@ export default function Navbar() {
       <div className="text-xl font-bold text-white">
         {isLoggedIn ? (
           <Link href="/dashboard">
-            <span>logo</span>
+            <p className="text-white">Logo</p>
           </Link>
         ) : (
           <Link href="/">
-            <span>logo</span>
+            <p className="text-white">logo</p>
           </Link>
         )}
       </div>
@@ -50,6 +50,7 @@ export default function Navbar() {
             <MaterialUISwitchComponent
               isDarkMode={isDarkMode}
               toggleTheme={toggleTheme}
+
             />
             <button
               onClick={handleLogout}
