@@ -19,15 +19,15 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-gray-800 text-white p-4 flex justify-between items-center">
-      <div className="text-xl font-bold text-white">
+    <nav className="bg-gray-800 p-4 flex justify-between items-center">
+      <div className="text-xl font-bold">
         {isLoggedIn ? (
           <Link href="/dashboard">
-            <p className="text-white">Logo</p>
+            <p className="">Logo</p>
           </Link>
         ) : (
           <Link href="/">
-            <p className="text-white">logo</p>
+            <p className="">logo</p>
           </Link>
         )}
       </div>
@@ -35,22 +35,18 @@ export default function Navbar() {
       <div className="flex items-center">
         {isLoggedIn ? (
           <>
-            <Link
-              href="/dashboard"
-              className="text-white hover:text-primary mr-4"
-            >
+            <Link href="/dashboard" className="hover:text-primary mr-4">
               Dashboard
             </Link>
             <Link
               href="/profile"
-              className="text-white hover:text-primary mr-4"
+              className="hover:text-primary mr-4"
             >
               Profile
             </Link>
             <MaterialUISwitchComponent
               isDarkMode={isDarkMode}
               toggleTheme={toggleTheme}
-
             />
             <button
               onClick={handleLogout}
@@ -60,7 +56,12 @@ export default function Navbar() {
             </button>
           </>
         ) : (
-          <div></div>
+          <div>
+            <MaterialUISwitchComponent
+              isDarkMode={isDarkMode}
+              toggleTheme={toggleTheme}
+            />
+          </div>
         )}
       </div>
     </nav>

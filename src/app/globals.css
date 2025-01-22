@@ -42,6 +42,10 @@
   h2 {
     @apply text-xl font-medium;
   }
+  p {
+    @apply text-lg;
+    color: var(--foreground);
+  }
 }
 
 @layer components {
@@ -202,7 +206,6 @@
   .input {
     @apply w-full px-4 py-2 border rounded-md;
     border-color: var(--border-color);
-    background-color: var(--background);
     color: var(--foreground);
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
   }
@@ -241,4 +244,5 @@
     --tw-shadow-color: var(--primary);
     --tw-shadow: 0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);
   }
+
 }

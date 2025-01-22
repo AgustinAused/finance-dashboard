@@ -5,6 +5,8 @@ import { login } from '@/api/AuthApi'; // Importar el módulo AuthApi
 import { FaEye, FaEyeSlash } from 'react-icons/fa'; // Importar íconos de Font Awesome
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
+import { TextField } from '@mui/material';
+
 
 export default function FormLogin() {
   const [formData, setFormData] = useState({ email: '', password: '' });
@@ -44,31 +46,29 @@ export default function FormLogin() {
     >
       <h2 className="text-2xl font-bold text-center">Login</h2>
       <div>
-        <label htmlFor="email" className="block text-sm font-medium">
-          Email
-        </label>
-        <input
+        <TextField
           id="email"
           name="email"
           type="email"
           value={formData.email}
           onChange={handleChange}
           placeholder="Enter your email"
-          className="w-full p-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600"
+          className='input'
+          variant='outlined'
+          label="Email"
         />
       </div>
       <div className="relative">
-        <label htmlFor="password" className="block text-sm font-medium">
-          Password
-        </label>
-        <input
+         <TextField
           id="password"
           name="password"
           type={showPassword ? 'text' : 'password'}
           value={formData.password}
           onChange={handleChange}
           placeholder="Enter your password"
-          className="w-full p-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600"
+          variant='outlined'
+          label="Password"
+          className="input"
         />
          <button
           type="button"
