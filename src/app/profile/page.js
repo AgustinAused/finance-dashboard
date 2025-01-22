@@ -4,12 +4,17 @@ import ProfileHeader from "@/components/profile/Header";
 import CircularProgress from "@mui/material/CircularProgress";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
+import { Typography } from "@mui/material";
 import EditForm from "@/components/profile/EditForm";
 import { getProfile, updateProfile } from "@/api/UserApi";
+import CustomSnackbar from"@/components/global/CustomSnackbar"
 
 export default function ProfilePage() {
     const [user, setUser] = useState(null);
     const [openModal, setOpenModal] = useState(false);
+    const [showSnackbar, setShowSnackbar] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState("");
+    const [snackbarSeverity, setSnackbarSeverity] = useState("success");
 
     useEffect(() => {
         const fetchUserProfile = async () => {
@@ -29,12 +34,25 @@ export default function ProfilePage() {
     };
 
     const handleSaveChanges = async (updatedUser) => {
-        const response = await updateProfile(updatedUser);
+        const data = {
+            last_name: updatedUser.lastName,
+            first_name: updatedUser.firstName,
+            email: updatedUser.email,
+        }
+        const response = await updateProfile(user.id, data);
         if (response && response.status === "success") {
             setUser(updatedUser); // Actualizar el estado con los cambios
             setOpenModal(false); // Cerrar el modal
+
+            // Mostrar Snackbar
+            setShowSnackbar(true);
+            setSnackbarMessage("Perfil actualizado con éxito");
+            setSnackbarSeverity("success");
         } else {
             console.error("Error al actualizar el perfil");
+            setShowSnackbar(true);
+            setSnackbarMessage("Error al actualizar el perfil");
+            setSnackbarSeverity("error");
         }
     };
 
@@ -66,17 +84,25 @@ export default function ProfilePage() {
                         left: "50%",
                         transform: "translate(-50%, -50%)",
                         width: 400,
+                        bgcolor: "background.paper",
                         boxShadow: 24,
                         p: 4,
                         borderRadius: 2,
                     }}
                 >
-                    <EditForm
-                        user={user}
-                        onSave={handleSaveChanges}
-                    />
+                    <Typography variant="h6" component="h2" mb={2}>
+                        Editar Perfil
+                    </Typography>
+                    <EditForm user={user} onSave={handleSaveChanges} />
                 </Box>
             </Modal>
+
+            <CustomSnackbar
+                open={showSnackbar}
+                message={snackbarMessage}
+                severity={snackbarSeverity}
+                onClose={() => setShowSnackbar(false)}
+            />
         </div>
     );
 }

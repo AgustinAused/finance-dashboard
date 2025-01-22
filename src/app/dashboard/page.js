@@ -9,8 +9,7 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import Alert from '@mui/material/Alert'; // Importa el componente Alert
-import Snackbar from '@mui/material/Snackbar'; // Importa el componente Snackbar
+import CustomSnackbar from '@/components/global/CustomSnackbar';
 
 export default function Dashboard() {
   const [finances, setFinances] = useState({ income: 0, expenses: 0, netCashFlow: 0 });
@@ -21,7 +20,6 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [newPassword, setNewPassword] = useState('');
-  const [success, setSuccess] = useState(false); // Controla la alerta de éxito
   const [showSnackbar, setShowSnackbar] = useState(false); // Controla la visibilidad del Snackbar
   const [snackbarMessage, setSnackbarMessage] = useState(''); // Mensaje del Snackbar
   const [snackbarSeverity, setSnackbarSeverity] = useState(''); // Tipo de mensaje
@@ -162,20 +160,12 @@ export default function Dashboard() {
       </Modal>
 
       {/* Alerta de éxito */}
-      <Snackbar
-        open={showSnackbar}
-        autoHideDuration={6000} // Tiempo que permanece visible (en ms)
-        onClose={() => setShowSnackbar(false)} // Cierra el Snackbar
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} // Posición
-      >
-        <Alert
-          onClose={() => setShowSnackbar(false)} // Opción para cerrar manualmente
-          severity={snackbarSeverity} // Tipo de alerta (success, error, etc.)
-          sx={{ width: '100%' }}
-        >
-          {snackbarMessage}
-        </Alert>
-      </Snackbar>
+      <CustomSnackbar
+                      open={showSnackbar}
+                      message={snackbarMessage}
+                      severity={snackbarSeverity}
+                      onClose={() => setShowSnackbar(false)}
+                  />
     </div>
   );
 }

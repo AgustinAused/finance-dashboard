@@ -28,11 +28,11 @@ export async function getProfile() {
     }
 }
 
-export async function updateProfile(data) {
+export async function updateProfile(id, data) {
     try {
         const cookiesInstance = await cookies();
         const token = cookiesInstance.get("access_token");
-        const response = await apiClient.put("/api/user/", data, {
+        const response = await apiClient.put("/api/user/"+ id, data, {
             headers: {
                 Authorization: `Bearer ${token.value}`,
             },

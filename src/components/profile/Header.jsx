@@ -1,23 +1,25 @@
 import React from "react";
 import { FaUserCircle } from "react-icons/fa"; // Importa el ícono
-
 export default function ProfileHeader({ user, onEditClick }) {
   return (
     <div className="p-6">
       {/* Encabezado del perfil */}
       <header className="profile-header">
-        {user.avatarUrl ? (
-          <img
-            src={avatarUrl}
-            alt={`${user.firstName} ${user.lastName}`}
-            className="profile-header-avatar"
-          />
-        ) : (
-          <FaUserCircle
-            className="text-primary-light profile-header-avatar"
-            size={64}
-          />
-        )}
+      <div className="relative">
+      {user.avatarUrl ? (
+            <img
+              src={user.avatarUrl}
+              alt={`${user.firstName} ${user.lastName}`}
+              className="profile-header-avatar"
+            />
+          ) : (
+            <FaUserCircle
+              className="text-primary-light profile-header-avatar"
+              size={64}
+            />
+          )}
+
+        </div>
         <div className="profile-header-info">
           <h1 className="flex items-center gap-2">
             {`${user.firstName} ${user.lastName}`}
