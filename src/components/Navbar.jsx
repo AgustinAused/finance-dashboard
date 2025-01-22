@@ -1,14 +1,15 @@
-'use client'
+"use client";
 import React from "react";
 import Link from "next/link";
-import { useRouter } from 'next/navigation';
-import { useAuth } from '@/context/AuthContext';
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
+import { useTheme } from "@/context/ThemeContext";
 import { logout } from "@/api/AuthApi";
-
-
+import MaterialUISwitchComponent from '@/components/navbar/MaterialUISwitch';
 
 export default function Navbar() {
   const { isLoggedIn, logoutUser } = useAuth();
+  const { isDarkMode, toggleTheme } = useTheme();
   const router = useRouter();
 
   const handleLogout = async () => {
@@ -20,18 +21,29 @@ export default function Navbar() {
   return (
     <nav className="bg-gray-800 text-white p-4 flex justify-between items-center">
       <div className="text-xl font-bold text-white">
-        <Link href="/dashboard">Logo</Link>
+        {isLoggedIn ? (
+          <Link href="/dashboard">Dashboard</Link>
+        ) : (
+          <Link href="/">Home</Link>
+        )}
       </div>
 
       <div className="flex items-center">
         {isLoggedIn ? (
           <>
-            <Link href="/dashboard" className="text-white hover:text-primary mr-4">
+            <Link
+              href="/dashboard"
+              className="text-white hover:text-primary mr-4"
+            >
               Dashboard
             </Link>
-            <Link href="/profile" className="text-white hover:text-primary mr-4">
+            <Link
+              href="/profile"
+              className="text-white hover:text-primary mr-4"
+            >
               Profile
             </Link>
+            <MaterialUISwitchComponent isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
             <button
               onClick={handleLogout}
               className="bg-danger text-white px-4 py-2 rounded hover:bg-red-600"
@@ -40,8 +52,7 @@ export default function Navbar() {
             </button>
           </>
         ) : (
-          <div>
-          </div>
+          <div></div>
         )}
       </div>
     </nav>
