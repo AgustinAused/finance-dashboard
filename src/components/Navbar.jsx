@@ -19,7 +19,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-gray-800 p-4 flex justify-between items-center">
+    <div className="bg-gray-800 p-4 flex justify-between items-center">
       <div className="navbar-title">
         {isLoggedIn ? (
           <Link href="/dashboard">
@@ -64,6 +64,6 @@ export default function Navbar() {
           </div>
         )}
       </div>
-    </nav>
+    </div>
   );
 }

@@ -13,7 +13,7 @@ export default function Home() {
 
   return (
     <div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8" >
-      <div className="w-full max-w-xl rounded-lg shadow-lg p-6 flex flex-col">
+      <div className="w-full max-w-xl rounded-lg p-6 flex flex-col">
         <div className="flex items-center justify-center pt-6 flex-grow">
           {showLogin ? <FormLogin /> : <FormRegister />}
         </div>
