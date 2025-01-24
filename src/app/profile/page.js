@@ -6,12 +6,15 @@ import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import { Typography } from "@mui/material";
 import EditForm from "@/components/profile/EditForm";
+import CustomSnackbar from "@/components/global/CustomSnackbar";
+import EditCompanyForm from "@/components/profile/EditCompanyForm";
 import { getProfile, updateProfile } from "@/api/UserApi";
-import CustomSnackbar from"@/components/global/CustomSnackbar"
+import { updateCompany } from "@/api/CompanyApi";
 
 export default function ProfilePage() {
     const [user, setUser] = useState(null);
     const [openModal, setOpenModal] = useState(false);
+    const [openCompanyModal, setOpenCompanyModal] = useState(false);
     const [showSnackbar, setShowSnackbar] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState("");
     const [snackbarSeverity, setSnackbarSeverity] = useState("success");
@@ -31,6 +34,9 @@ export default function ProfilePage() {
 
     const handleEditClick = () => {
         setOpenModal(true); // Abrir el modal
+    };
+    const handleEditCompanyClick = () => {
+        setOpenCompanyModal(true);
     };
 
     const handleSaveChanges = async (updatedUser) => {
@@ -56,6 +62,24 @@ export default function ProfilePage() {
         }
     };
 
+    const handleSaveCompanyChanges = async (updatedCompany) => {
+        const response = await updateCompany(user.company.id, updatedCompany);
+        if (response && response.status === "success") {
+            setUser({ ...user, company: response.data });
+            setOpenCompanyModal(false);
+            setShowSnackbar(true);
+            setSnackbarMessage("Empresa actualizada con éxito");
+            setSnackbarSeverity("success");
+        } else {
+            setShowSnackbar(true);
+            setSnackbarMessage("Error al actualizar la empresa");
+            setSnackbarSeverity("error");
+        }
+    };
+
+
+
+
     if (!user) {
         return (
             <div
@@ -73,7 +97,7 @@ export default function ProfilePage() {
 
     return (
         <div className="profile-page">
-            <ProfileHeader user={user} onEditClick={handleEditClick} />
+            <ProfileHeader user={user} onEditClick={handleEditClick} onEditCompanyClick={handleEditCompanyClick} />
 
             {/* Modal para editar perfil */}
             <Modal open={openModal} onClose={() => setOpenModal(false)}>
@@ -97,6 +121,32 @@ export default function ProfilePage() {
                 </Box>
             </Modal>
 
+            {/* Modal para editar empresa */}
+            <Modal open={openCompanyModal} onClose={() => setOpenCompanyModal(false)}>
+                <Box
+                    sx={{
+                        position: "absolute",
+                        top: "50%",
+                        left: "50%",
+                        transform: "translate(-50%, -50%)",
+                        width: 400,
+                        bgcolor: "background.paper",
+                        boxShadow: 24,
+                        p: 4,
+                        borderRadius: 2,
+                    }}
+                >
+                    <Typography variant="h6" component="h2" mb={2}>
+                        Editar Empresa
+                    </Typography>
+                    <EditCompanyForm
+                        company={user.company}
+                        onSave={handleSaveCompanyChanges}
+                    />
+                </Box>
+            </Modal>
+
+            {/* Alerta */}
             <CustomSnackbar
                 open={showSnackbar}
                 message={snackbarMessage}

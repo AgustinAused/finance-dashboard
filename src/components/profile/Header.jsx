@@ -1,6 +1,6 @@
 import React from "react";
 import { FaUserCircle } from "react-icons/fa"; // Importa el ícono
-export default function ProfileHeader({ user, onEditClick }) {
+export default function ProfileHeader({ user, onEditClick, onEditCompanyClick }) {
   return (
     <div className="p-6">
       {/* Encabezado del perfil */}
@@ -64,6 +64,10 @@ export default function ProfileHeader({ user, onEditClick }) {
             </p>
             <p>
               <strong>email: </strong>
+              {user.company.email || "Sin especificar"}
+            </p>
+            <p>
+              <strong>Dirección: </strong>
               {user.company.address || "Sin especificar"}
             </p>
             <p>
@@ -71,7 +75,7 @@ export default function ProfileHeader({ user, onEditClick }) {
               {user.company.phone || "Sin especificar"}
             </p>
           </div>
-          <button className="btn" onClick={onEditClick}>
+          <button className="btn" onClick={onEditCompanyClick}>
             Editar Empresa
           </button>
         </div>
