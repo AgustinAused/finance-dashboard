@@ -1,10 +1,6 @@
 import React from "react";
-import {
-  FaDollarSign,
-  FaArrowUp,
-  FaArrowDown,
-  FaBalanceScale,
-} from "react-icons/fa";
+import { FaArrowUp, FaArrowDown, FaBalanceScale } from "react-icons/fa";
+import QuickActions from "./QuickActions";
 
 function FinancialSummary({
   finances,
@@ -14,6 +10,9 @@ function FinancialSummary({
   setSelectedOption,
   setYear,
   year,
+  onIncome,
+  onExpense,
+  onReports,
 }) {
   const quarters = ["Q1", "Q2", "Q3", "Q4"];
   const months = [
@@ -46,7 +45,7 @@ function FinancialSummary({
 
   return (
     <div className="p-6">
-      <div className="filter flex justify-end items-center mb-6">
+      <div className="filter flex justify-between items-center mb-6">
         <div className="flex gap-4">
           {/* Filtro de año */}
           <input
@@ -56,7 +55,6 @@ function FinancialSummary({
             className="p-2 rounded-md border border-gray-600 bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring focus:ring-blue-500"
             placeholder="Año"
           />
-
           {/* Filtro de periodo */}
           <select
             onChange={handlePeriodChange}
@@ -89,6 +87,11 @@ function FinancialSummary({
             </select>
           )}
         </div>
+        <QuickActions
+          onIncome={onIncome}
+          onExpense={onExpense}
+          onReports={onReports}
+        />
       </div>
 
       {/* Estadísticas */}

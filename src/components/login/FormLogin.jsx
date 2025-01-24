@@ -27,12 +27,11 @@ export default function FormLogin() {
     setError('');
 
     try {
-      const response = await login(formData.email, formData.password);
+      await login(formData.email, formData.password);
       loginUser(); // Actualiza el estado global
-      setSuccess(true)
       router.push('/dashboard');
     } catch (err) {
-      setError(err.response?.data?.message || 'Login failed. Please try again.');
+      setError('Login failed. Please try again.');
     } finally {
       setLoading(false);
     }

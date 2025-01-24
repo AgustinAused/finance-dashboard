@@ -85,6 +85,19 @@ export default function Dashboard() {
   };
 
 
+  const handleIncomeAdd = async () => {
+    console.log('Add Income');
+  }
+
+  const handleExpenseAdd = async () => {
+    console.log('Add Expense');
+  }
+
+  const handleReportsView = async () => {
+    console.log('View Reports');
+  }
+
+
   if (loading) {
     return (
       <Box
@@ -110,6 +123,9 @@ export default function Dashboard() {
         setSelectedOption={setSelectedOption}
         setYear={setYear}
         year={year}
+        onIncome={handleIncomeAdd}
+        onExpense={handleExpenseAdd}
+        onReports={handleReportsView}
       />
       <FinancialCharts companyId={user.company.id} />
 
