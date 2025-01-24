@@ -13,7 +13,6 @@ export default function FormLogin() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [success, setSuccess] = useState(false)
   const { loginUser } = useAuth();
   const router = useRouter();
 
