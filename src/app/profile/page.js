@@ -44,6 +44,7 @@ export default function ProfilePage() {
             last_name: updatedUser.lastName,
             first_name: updatedUser.firstName,
             email: updatedUser.email,
+            phone: updatedUser.phone,
         }
         const response = await updateProfile(user.id, data);
         if (response && response.status === "success") {

@@ -32,7 +32,7 @@ const EditForm = ({ user, onSave }) => {
 
     if (!userData.phone?.trim()) {
       newErrors.phone = "El teléfono es obligatorio.";
-    }else if (!/^\d{10}$/.test(userData.phone)) {
+    } else if (!/^\+?[0-9]{10,15}$/.test(userData.phone)) {
       newErrors.phone = "Ingresa un número de teléfono válido.";
     }
 
@@ -41,6 +41,8 @@ const EditForm = ({ user, onSave }) => {
   };
 
   const handleSubmit = () => {
+    setErrors({}); // Limpia los errores antes de validar
+    
     if (validate()) {
       const data = { ...userData };
       console.log(data);
