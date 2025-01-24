@@ -1,12 +1,17 @@
 import React from "react";
-import { FaUserCircle } from "react-icons/fa"; // Importa el ícono
-export default function ProfileHeader({ user, onEditClick, onEditCompanyClick }) {
+import { FaUserCircle, FaCamera } from "react-icons/fa"; // Importa el ícono
+export default function ProfileHeader({
+  user,
+  onEditClick,
+  onEditCompanyClick,
+  handleAvatarChange,
+}) {
   return (
     <div className="p-6">
       {/* Encabezado del perfil */}
       <header className="profile-header">
-      <div className="relative">
-      {user.avatarUrl ? (
+        <div className="relative">
+          {user.avatarUrl ? (
             <img
               src={user.avatarUrl}
               alt={`${user.firstName} ${user.lastName}`}
@@ -18,7 +23,13 @@ export default function ProfileHeader({ user, onEditClick, onEditCompanyClick })
               size={64}
             />
           )}
-
+          {/* Botón para cambiar la foto */}
+          <button
+            onClick={() => handleAvatarChange()} // Lógica de subida
+            className="absolute inset-0 flex items-center justify-center bg-black/50 text-white rounded-full opacity-0 hover:opacity-100 transition duration-200"
+          >
+            <FaCamera size={20} />
+          </button>
         </div>
         <div className="profile-header-info">
           <h1 className="flex items-center gap-2">

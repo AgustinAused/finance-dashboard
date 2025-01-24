@@ -56,7 +56,25 @@ export async function changePassword(data) {
         return response.data;
     } catch (error) {
         console.error("Error in changePassword:", error.message)
-        }
+    }
+}
+
+
+export async function updatePhoto(id, file) {
+    try {
+        const cookiesInstance = await cookies();
+        const token = cookiesInstance.get("access_token");
+
+        const response = await apiClient.put(`/api/user/${id}/photo`, file , {
+            headers: {
+                Authorization: `Bearer ${token.value}`,
+                "Content-Type": "multipart/form-data",
+            }
+        })
+        return response.data;
+    } catch ( error ){
+        console.error("Error in chagePhoto:", error.message)
+    }
 }
 
 
