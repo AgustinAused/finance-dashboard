@@ -8,13 +8,16 @@ import { Typography } from "@mui/material";
 import EditForm from "@/components/profile/EditForm";
 import CustomSnackbar from "@/components/global/CustomSnackbar";
 import EditCompanyForm from "@/components/profile/EditCompanyForm";
-import { getProfile, updateProfile } from "@/api/UserApi";
+import EditPhotoForm from "@/components/profile/EditPhotoForm";
+import { getProfile, updateProfile, updatePhoto } from "@/api/UserApi";
 import { updateCompany } from "@/api/CompanyApi";
+
 
 export default function ProfilePage() {
     const [user, setUser] = useState(null);
     const [openModal, setOpenModal] = useState(false);
     const [openCompanyModal, setOpenCompanyModal] = useState(false);
+    const [openChangePhotoModal, setOpenChangePhotoModal] = useState(false);
     const [showSnackbar, setShowSnackbar] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState("");
     const [snackbarSeverity, setSnackbarSeverity] = useState("success");
@@ -37,6 +40,10 @@ export default function ProfilePage() {
     };
     const handleEditCompanyClick = () => {
         setOpenCompanyModal(true);
+    };
+
+    const handleAvatarChangeClick = () => {
+        setOpenChangePhotoModal(true);
     };
 
     const handleSaveChanges = async (updatedUser) => {
@@ -78,6 +85,21 @@ export default function ProfilePage() {
         }
     };
 
+    const handleAvatarChange = async (file) => {
+        const response = await updatePhoto(user.id, file);
+        if (response && response.status === "success") {
+            setUser({ ...user, avatarUrl: response.data.avatarUrl });
+            setOpenChangePhotoModal(false);
+            setShowSnackbar(true);
+            setSnackbarMessage("Foto de perfil actualizada con éxito");
+            setSnackbarSeverity("success");
+        } else {
+            setShowSnackbar(true);
+            setSnackbarMessage("Error al actualizar la foto de perfil");
+            setSnackbarSeverity("error");
+        }
+    }
+
 
 
 
@@ -98,7 +120,11 @@ export default function ProfilePage() {
 
     return (
         <div className="profile-page">
-            <ProfileHeader user={user} onEditClick={handleEditClick} onEditCompanyClick={handleEditCompanyClick} />
+            <ProfileHeader
+                user={user}
+                onEditClick={handleEditClick}
+                onEditCompanyClick={handleEditCompanyClick}
+                onAvatarChange={handleAvatarChangeClick} />
 
             {/* Modal para editar perfil */}
             <Modal open={openModal} onClose={() => setOpenModal(false)}>
@@ -144,6 +170,28 @@ export default function ProfilePage() {
                         company={user.company}
                         onSave={handleSaveCompanyChanges}
                     />
+                </Box>
+            </Modal>
+
+            {/* Modal para cambiar foto */}
+            <Modal open={openChangePhotoModal} onClose={() => setOpenChangePhotoModal(false)}>
+                <Box
+                    sx={{
+                        position: "absolute",
+                        top: "50%",
+                        left: "50%",
+                        transform: "translate(-50%, -50%)",
+                        width: 400,
+                        bgcolor: "background.paper",
+                        boxShadow: 24,
+                        p: 4,
+                        borderRadius: 2,
+                    }}
+                >
+                    <Typography variant="h6" component="h2" mb={2}>
+                        Cambiar Foto
+                    </Typography>
+                    <EditPhotoForm onSave={handleAvatarChange} />
                 </Box>
             </Modal>
 

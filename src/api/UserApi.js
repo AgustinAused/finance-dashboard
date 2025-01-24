@@ -65,12 +65,17 @@ export async function updatePhoto(id, file) {
         const cookiesInstance = await cookies();
         const token = cookiesInstance.get("access_token");
 
-        const response = await apiClient.put(`/api/user/${id}/photo`, file , {
+        // Crear un FormData para envolver el archivo
+        const formData = new FormData();
+        formData.append("file", file);  // 'photo' debe coincidir con el nombre esperado en el backend
+
+        const response = await apiClient.put(`/api/user/${id}/photo`, formData, {
             headers: {
                 Authorization: `Bearer ${token.value}`,
-                "Content-Type": "multipart/form-data",
+                "Content-Type": "multipart/form-data",  // Aunque no es necesario, es bueno especificarlo
             }
-        })
+        });
+
         return response.data;
     } catch ( error ){
         console.error("Error in chagePhoto:", error.message)
