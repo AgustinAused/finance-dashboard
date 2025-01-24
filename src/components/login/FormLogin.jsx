@@ -90,7 +90,6 @@ export default function FormLogin() {
       >
         {loading ? 'Logging in...' : 'Login'}
       </button>
-      {success && <div className="text-sm text-green-500">Login successful!</div>}
     </form>
   );
 }
