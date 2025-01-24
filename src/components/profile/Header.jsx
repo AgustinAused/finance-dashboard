@@ -4,7 +4,7 @@ export default function ProfileHeader({
   user,
   onEditClick,
   onEditCompanyClick,
-  handleAvatarChange,
+  onAvatarChange,
 }) {
   return (
     <div className="p-6">
@@ -25,7 +25,7 @@ export default function ProfileHeader({
           )}
           {/* Botón para cambiar la foto */}
           <button
-            onClick={() => handleAvatarChange()} // Lógica de subida
+            onClick={() => onAvatarChange()} // Lógica de subida
             className="absolute inset-0 flex items-center justify-center bg-black/50 text-white rounded-full opacity-0 hover:opacity-100 transition duration-200"
           >
             <FaCamera size={20} />
