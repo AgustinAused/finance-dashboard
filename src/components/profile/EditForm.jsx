@@ -30,6 +30,12 @@ const EditForm = ({ user, onSave }) => {
       newErrors.email = "Ingresa un correo electrónico válido.";
     }
 
+    if (!userData.phone?.trim()) {
+      newErrors.phone = "El teléfono es obligatorio.";
+    }else if (!/^\d{10}$/.test(userData.phone)) {
+      newErrors.phone = "Ingresa un número de teléfono válido.";
+    }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -86,6 +92,19 @@ const EditForm = ({ user, onSave }) => {
           fullWidth
           error={!!errors.email}
           helperText={errors.email}
+        />
+      </div>
+
+      <div className="mb-4">
+        <TextField
+          id="phone"
+          label="Teléfono"
+          name="phone"
+          value={userData.phone || ""}
+          onChange={handleChange}
+          fullWidth
+          error={!!errors.phone}
+          helperText={errors.phone}
         />
       </div>
 
