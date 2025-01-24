@@ -21,3 +21,20 @@ export const addTransaction = async (newTransaction) => {
 }
 
 
+export const getTransactions = async (companyId) => {
+    try {
+        const cookieInstance = await cookies();
+        const token = cookieInstance.get("access_token");
+
+        const response = await apiClient.get("/transactions/" + companyId, {
+            headers: {
+                "Authorization": `Bearer ${token.value}`,
+                },
+                });
+        return response.data;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+
