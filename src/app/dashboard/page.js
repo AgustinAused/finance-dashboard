@@ -1,6 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import { getCashFlowDefault } from '@/api/FinancialApi';
+import { addTransaction } from '@/api/TransactionApi';
 import { getProfile, changePassword } from '@/api/UserApi';
 import FinancialSummary from '@/components/dashboard/FinancialSummary';
 import FinancialCharts from '@/components/dashboard/FinancialCharts';
@@ -85,12 +86,33 @@ export default function Dashboard() {
   };
 
 
-  const handleIncomeAdd = async () => {
-    console.log('Add Income');
+  const handleIncomeAdd = async (newTransaction) => {
+    try {
+      const data = {
+        category_id: newTransaction.category_id,
+        user_id: newTransaction.user_id,
+        transaction_type: "income",
+        amount: newTransaction.amount,
+        date: newTransaction.date,
+      }
+      const response = await addTransaction(data);
+
+      // Configura y muestra el Snackbar de éxito
+      setSnackbarMessage('¡Transacción agregada con éxito!');
+      setSnackbarSeverity('success'); // Tipo de mensaje
+      setShowSnackbar(true); // Muestra la notificación
+
+      // recargar pagina 
+      window.location.reload();
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   const handleExpenseAdd = async () => {
     console.log('Add Expense');
+    // recargar pagina 
+    window.location.reload();
   }
 
   const handleReportsView = async () => {
@@ -177,11 +199,11 @@ export default function Dashboard() {
 
       {/* Alerta de éxito */}
       <CustomSnackbar
-                      open={showSnackbar}
-                      message={snackbarMessage}
-                      severity={snackbarSeverity}
-                      onClose={() => setShowSnackbar(false)}
-                  />
+        open={showSnackbar}
+        message={snackbarMessage}
+        severity={snackbarSeverity}
+        onClose={() => setShowSnackbar(false)}
+      />
     </div>
   );
 }
