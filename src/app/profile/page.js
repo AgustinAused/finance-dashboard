@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import ProfileHeader from "@/components/profile/Header";
 import CircularProgress from "@mui/material/CircularProgress";
 import Modal from "@mui/material/Modal";
@@ -11,10 +11,11 @@ import EditCompanyForm from "@/components/profile/EditCompanyForm";
 import EditPhotoForm from "@/components/profile/EditPhotoForm";
 import { getProfile, updateProfile, updatePhoto } from "@/api/UserApi";
 import { updateCompany } from "@/api/CompanyApi";
+import { UserContext } from "@/context/UserContext";
 
 
 export default function ProfilePage() {
-    const [user, setUser] = useState(null);
+    const [user, loading] = useContext(UserContext);
     const [openModal, setOpenModal] = useState(false);
     const [openCompanyModal, setOpenCompanyModal] = useState(false);
     const [openChangePhotoModal, setOpenChangePhotoModal] = useState(false);
