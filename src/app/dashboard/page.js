@@ -1,8 +1,9 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { getCashFlowDefault } from '@/api/FinancialApi';
 import { addTransaction } from '@/api/TransactionApi';
 import { getProfile, changePassword } from '@/api/UserApi';
+import { UserContext } from '@/context/UserContext';
 import FinancialSummary from '@/components/dashboard/FinancialSummary';
 import FinancialCharts from '@/components/dashboard/FinancialCharts';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -17,8 +18,7 @@ export default function Dashboard() {
   const [selectedPeriod, setSelectedPeriod] = useState('anual');
   const [selectedOption, setSelectedOption] = useState(null);
   const [year, setYear] = useState(new Date().getFullYear());
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const { user, setUser, loading } = useContext(UserContext);
   const [showModal, setShowModal] = useState(false);
   const [newPassword, setNewPassword] = useState('');
   const [showSnackbar, setShowSnackbar] = useState(false); // Controla la visibilidad del Snackbar
@@ -56,13 +56,11 @@ export default function Dashboard() {
       } catch (error) {
         setErrorMessage('Error fetching data');
         setFinances(prevFinances => ({ ...prevFinances }));
-      } finally {
-        setLoading(false);
       }
     };
 
     fetchData();
-  }, [selectedPeriod, selectedOption, year]);
+  }, [selectedPeriod, selectedOption, year, setUser]);
 
   const handlePasswordChange = async () => {
     try {

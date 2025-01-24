@@ -14,5 +14,5 @@ export function middleware(req) {
 
 // Configuración para las rutas protegidas
 export const config = {
-    matcher: ['/dashboard/:path*'], // Protege todas las rutas bajo /dashboard
+    matcher: ['/dashboard/:path*', '/profile/:path*', '/transactions/:path*'], // Protege todas las rutas bajo /dashboard
 };

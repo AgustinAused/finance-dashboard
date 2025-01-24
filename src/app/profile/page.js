@@ -15,7 +15,7 @@ import { UserContext } from "@/context/UserContext";
 
 
 export default function ProfilePage() {
-    const [user, loading] = useContext(UserContext);
+    const { user, setUser, loading } = useContext(UserContext);
     const [openModal, setOpenModal] = useState(false);
     const [openCompanyModal, setOpenCompanyModal] = useState(false);
     const [openChangePhotoModal, setOpenChangePhotoModal] = useState(false);
@@ -27,7 +27,7 @@ export default function ProfilePage() {
         const fetchUserProfile = async () => {
             const userData = await getProfile();
             if (userData && userData.data) {
-                setUser(userData.data);
+                setUser(userData.data); // Aquí debes definir un método para actualizar el usuario en el contexto.
             } else {
                 console.error("User data not found");
             }
@@ -35,17 +35,6 @@ export default function ProfilePage() {
 
         fetchUserProfile();
     }, []);
-
-    const handleEditClick = () => {
-        setOpenModal(true); // Abrir el modal
-    };
-    const handleEditCompanyClick = () => {
-        setOpenCompanyModal(true);
-    };
-
-    const handleAvatarChangeClick = () => {
-        setOpenChangePhotoModal(true);
-    };
 
     const handleSaveChanges = async (updatedUser) => {
         const data = {
@@ -101,10 +90,25 @@ export default function ProfilePage() {
         }
     }
 
+    useEffect(() => {
+        const fetchUserProfile = async () => {
+            const userData = await getProfile();
+            if (userData && userData.data) {
+                setUser(userData.data); // Aquí debes definir un método para actualizar el usuario en el contexto.
+            } else {
+                console.error("User data not found");
+            }
+        };
 
+        fetchUserProfile();
+    }, []);
 
+    const handleEditClick = () => setOpenModal(true);
+    const handleEditCompanyClick = () => setOpenCompanyModal(true);
+    const handleAvatarChangeClick = () => setOpenChangePhotoModal(true);
 
-    if (!user) {
+    // Si el usuario aún no está cargado, mostrar un indicador de carga
+    if (loading || !user) {
         return (
             <div
                 style={{

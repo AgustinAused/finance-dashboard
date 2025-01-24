@@ -2,7 +2,7 @@
 import React, { createContext, useState, useEffect } from 'react';
 import { getProfile } from '@/api/UserApi'; // Asume que este endpoint devuelve la información del usuario
 
-export const UserContext = createContext();
+export const UserContext = createContext({ user: null, loading: true });
 
 export const UserProvider = ({ children }) => {
     const [user, setUser] = useState(null);
@@ -18,7 +18,7 @@ export const UserProvider = ({ children }) => {
                     console.error('No se encontró información del usuario');
                 }
             } catch (error) {
-                console.error('Error al obtener los datos del usuario:', error);
+                console.log('Error al obtener los datos del usuario:', error);
             } finally {
                 setLoading(false);
             }
