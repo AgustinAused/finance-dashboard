@@ -34,7 +34,7 @@ export default function ProfilePage() {
         };
 
         fetchUserProfile();
-    }, []);
+    }, [setUser]);
 
     const handleSaveChanges = async (updatedUser) => {
         const data = {
@@ -89,19 +89,6 @@ export default function ProfilePage() {
             setSnackbarSeverity("error");
         }
     }
-
-    useEffect(() => {
-        const fetchUserProfile = async () => {
-            const userData = await getProfile();
-            if (userData && userData.data) {
-                setUser(userData.data); // Aquí debes definir un método para actualizar el usuario en el contexto.
-            } else {
-                console.error("User data not found");
-            }
-        };
-
-        fetchUserProfile();
-    }, []);
 
     const handleEditClick = () => setOpenModal(true);
     const handleEditCompanyClick = () => setOpenCompanyModal(true);
