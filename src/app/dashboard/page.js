@@ -6,11 +6,9 @@ import { getProfile, changePassword } from '@/api/UserApi';
 import { UserContext } from '@/context/UserContext';
 import FinancialSummary from '@/components/dashboard/FinancialSummary';
 import FinancialCharts from '@/components/dashboard/FinancialCharts';
+import ChangePasswordModal from '@/components/dashboard/ChangePasswordModal';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
-import Modal from '@mui/material/Modal';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
 import CustomSnackbar from '@/components/global/CustomSnackbar';
 
 export default function Dashboard() {
@@ -20,7 +18,6 @@ export default function Dashboard() {
   const [year, setYear] = useState(new Date().getFullYear());
   const { user, setUser, loading } = useContext(UserContext);
   const [showModal, setShowModal] = useState(false);
-  const [newPassword, setNewPassword] = useState('');
   const [showSnackbar, setShowSnackbar] = useState(false); // Controla la visibilidad del Snackbar
   const [snackbarMessage, setSnackbarMessage] = useState(''); // Mensaje del Snackbar
   const [snackbarSeverity, setSnackbarSeverity] = useState(''); // Tipo de mensaje
@@ -62,12 +59,9 @@ export default function Dashboard() {
     fetchData();
   }, [selectedPeriod, selectedOption, year, setUser]);
 
-  const handlePasswordChange = async () => {
+  const handlePasswordChange = async ({ newPassword, email }) => {
     try {
-      const data = {
-        newPassword: newPassword,
-        email: user.email,
-      };
+      const data = { newPassword, email };
       await changePassword(data);
       setShowModal(false); // Cierra el modal
 
@@ -150,50 +144,12 @@ export default function Dashboard() {
       <FinancialCharts companyId={user.company.id} />
 
       {/* Modal de cambio de contraseña */}
-      <Modal
-        open={showModal}
-        onClose={() => { }}
-        aria-labelledby="modal-title"
-        disableEscapeKeyDown
-      >
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: 400,
-          }}
-          className="modal-container"
-        >
-          <div>
-            <h2 className="modal-title">
-              Cambiar por primer ingreso
-            </h2>
-            <TextField
-              label="Nueva Contraseña"
-              type="password"
-              fullWidth
-              variant="outlined"
-              value={newPassword}
-              sx={{ marginBottom: '1rem' }}
-              onChange={(e) => setNewPassword(e.target.value)}
-              className="modal-input"
-            />
-            {errorMessage && <p className="modal-error">{errorMessage}</p>}
-            <Button
-              className="modal-button"
-              onClick={handlePasswordChange}
-              disabled={!newPassword.trim()}
-            >
-              Cambiar Contraseña
-            </Button>
-          </div>
-        </Box>
-      </Modal>
+      <ChangePasswordModal
+      open={showModal}
+      onClose={() => setShowModal(false)}
+      onSubmit={handlePasswordChange}
+      email={user.email}
+    />
 
       {/* Alerta de éxito */}
       <CustomSnackbar

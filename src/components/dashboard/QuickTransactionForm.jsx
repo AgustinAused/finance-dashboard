@@ -1,23 +1,25 @@
-"use client";
 import React, { useState } from "react";
-import CategorySelector from "../global/CategorySelector";
-import { Box, TextField, Button, MenuItem } from "@mui/material";
+import CategorySelector from "@/components/global/CategorySelector";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFnsV3";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import esLocale from "date-fns/locale/es";
 
-export default function AddTransactionForm({ onSubmit, onCancel }) {
+export default function QuickTransactionForm({
+    title = "Transacción Rápida",
+    transactionType,
+    onSubmit,
+    onCancel,
+}) {
     const [formData, setFormData] = useState({
         date: null,
         amount: "",
-        transaction_type: "",
+        transaction_type: transactionType,
         description: "",
         category_id: null,
         company_id: 0,
         user_id: 0,
     });
-
     const [errors, setErrors] = useState({});
 
     const validateForm = () => {
@@ -64,10 +66,13 @@ export default function AddTransactionForm({ onSubmit, onCancel }) {
             onSubmit(formData);
         }
     };
-
+    
     return (
         <LocalizationProvider dateAdapter={AdapterDateFns} locale={esLocale}>
             <Box component="form" sx={{ p: 3 }} onSubmit={handleSubmit}>
+                <Typography variant="h6" component="h2">
+                    {title}
+                </Typography>
                 <DatePicker
                     label="Fecha"
                     value={formData.date}
@@ -84,20 +89,7 @@ export default function AddTransactionForm({ onSubmit, onCancel }) {
                     onChange={handleChange}
                     sx={{ mb: 2 }}
                 />
-                <TextField
-                    name="transaction_type"
-                    label="Tipo"
-                    select
-                    fullWidth
-                    value={formData.transaction_type}
-                    onChange={handleChange}
-                    sx={{ mb: 2 }}
-                >
-                    <MenuItem value="income">Ingreso</MenuItem>
-                    <MenuItem value="expense">Egreso</MenuItem>
-                </TextField>
                 <CategorySelector formData={formData} setFormData={setFormData} />
-
                 <TextField
                     name="description"
                     label="Descripción"
