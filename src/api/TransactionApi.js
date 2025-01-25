@@ -22,7 +22,6 @@ export const addTransaction = async (newTransaction) => {
 
 
 export const getTransactions = async (companyId, page = 0, pageSize = 10) => {
-    console.log(page, pageSize);
     try {
         const cookieInstance = await cookies();
         const token = cookieInstance.get("access_token");
@@ -32,7 +31,6 @@ export const getTransactions = async (companyId, page = 0, pageSize = 10) => {
                 "Authorization": `Bearer ${token.value}`,
             },
         });
-        console.log(response.data);
         return response.data;
     } catch (error) {
         console.error(error);
