@@ -20,31 +20,40 @@ export default function TransactionsPage() {
 
     const { user, loading: userLoading } = useContext(UserContext);
 
-    const fetchTransactions = async () => {
-        if (!user || userLoading) return;
-
-        setLoading(true);
-
-        try {
-            const response = await getTransactions(
-                user.company.id,
-                paginationModel.page,
-                paginationModel.pageSize
-            );
-
-            if (response.data && response.status === "success") {
-                setTransactions(response.data);
-                setTotalRows(response.totalItems);
-            }
-        } catch (err) {
-            console.error("Error fetching transactions:", err);
-            setError("No se pudieron cargar las transacciones.");
-        } finally {
-            setLoading(false);
-        }
-    };
+    
 
     useEffect(() => {
+        const fetchTransactions = async () => {
+            if (!user || userLoading) return;
+    
+            setLoading(true);
+    
+            try {
+                const response = await getTransactions(
+                    user.company.id,
+                    paginationModel.page,
+                    paginationModel.pageSize
+                );
+    
+                if (response.data && response.status === "success") {
+                    // Convierte las fechas antes de establecer las transacciones
+                    // const updatedDataList = response.data.map(item => {
+                    //     const [day, month, year] = item.createdAt.split('/');
+                    //     item.createdAt = new Date(`${year}-${month}-${day}`);
+                    //     return item;
+                    // });
+                    const updatedDataList = response.data;
+                    setTransactions(updatedDataList);
+                    setTotalRows(response.totalItems);
+                }
+            } catch (err) {
+                console.error("Error fetching transactions:", err);
+                setError("No se pudieron cargar las transacciones.");
+            } finally {
+                setLoading(false);
+            }
+        };
+    
         fetchTransactions();
     }, [user, userLoading, paginationModel]);
 
