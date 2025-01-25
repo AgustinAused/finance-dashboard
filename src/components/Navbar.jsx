@@ -31,36 +31,45 @@ export default function Navbar() {
           </Link>
         )}
       </div>
-
-      <div className="flex items-center">
-        {isLoggedIn ? (
+      <div>
+      {isLoggedIn ? (
+        <div>
+          <Link href="/dashboard" className="navbar-text">
+            Dashboard
+          </Link>
+          <Link
+            href="/profile"
+            className="navbar-text"
+          >
+            Profile
+          </Link>
+          <Link
+            href="/transactions"
+            className="navbar-text"
+          >
+            Transactions
+          </Link>
+        </div>
+        ) : (
           <div>
-            <Link href="/dashboard" className="navbar-text">
-              Dashboard
-            </Link>
-            <Link
-              href="/profile"
-              className="navbar-text"
-            >
-              Profile
-            </Link>
-            <Link
-              href="/transactions"
-              className="navbar-text"
-            >
-              Transactions
-            </Link>
-            <MaterialUISwitchComponent
-              isDarkMode={isDarkMode}
-              toggleTheme={toggleTheme}
-            />
-            <button
-              onClick={handleLogout}
-              className="bg-danger text-white px-4 py-2 rounded hover:bg-red-600"
-            >
-              Logout
-            </button>
           </div>
+        )}
+      </div>
+
+      <div className="flex justify-between">
+        {isLoggedIn ? (
+            <div>
+              <MaterialUISwitchComponent
+                isDarkMode={isDarkMode}
+                toggleTheme={toggleTheme}
+              />
+              <button
+                onClick={handleLogout}
+                className="bg-danger text-white px-4 py-2 rounded hover:bg-red-600"
+              >
+                Logout
+              </button>
+            </div>
         ) : (
           <div>
             <MaterialUISwitchComponent
@@ -70,6 +79,7 @@ export default function Navbar() {
           </div>
         )}
       </div>
-    </div>
-  );
-}
+      </div>
+  )}
+  
+
