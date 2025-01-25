@@ -2,33 +2,39 @@ import React from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { Box, Typography } from "@mui/material";
 
+export default function TransactionList({
+  transactions,
+  onSelectTransaction,
+  onPageChange,
+  pageSize,
+  setPageSize,
+  totalRows,
+}) {
+  const columns = [
+    { field: "createdAt", headerName: "Fecha", flex: 1 },
+    { field: "amount", headerName: "Monto", flex: 1 },
+    { field: "type", headerName: "Tipo", flex: 1 },
+    { field: "categoryName", headerName: "Categoría", flex: 1 },
+    { field: "description", headerName: "Descripción", flex: 2 },
+  ];
 
-export default function TransactionList({ onSelectTransaction, transactions }) {
-    const transactions = [
-        { id: 1, date: "2024-01-24", amount: 100.0, type: "income", category: "Salary", description: "Pago mensual" },
-        { id: 2, date: "2024-01-23", amount: 50.0, type: "expense", category: "Rent", description: "Pago alquiler" },
-      ];
-    
-      const columns = [
-        { field: "date", headerName: "Fecha", flex: 1 },
-        { field: "amount", headerName: "Monto", flex: 1 },
-        { field: "type", headerName: "Tipo", flex: 1 },
-        { field: "category", headerName: "Categoría", flex: 1 },
-        { field: "description", headerName: "Descripción", flex: 2 },
-      ];
-    
-      return (
-        <Box sx={{ flex: 1, p: 2 }}>
-          <Typography variant="h6" gutterBottom>
-            Transacciones
-          </Typography>
-          <DataGrid
-            rows={transactions}
-            columns={columns}
-            pageSize={5}
-            onRowClick={(params) => onSelectTransaction(params.row)}
-            autoHeight
-          />
-        </Box>
-      );
-    };
+  return (
+    <Box sx={{ flex: 1, p: 2 }}>
+      <Typography variant="h6" gutterBottom>
+        Transacciones
+      </Typography>
+      <DataGrid
+        rows={transactions} // Los datos de las transacciones
+        columns={columns} // Las columnas definidas
+        pageSize={pageSize} // Tamaño de página seleccionado
+        onPageSizeChange={(newPageSize) => setPageSize(newPageSize)} // Cambio en el tamaño de página
+        pagination // Activar paginación
+        rowCount={totalRows} // Cantidad total de filas en el servidor
+        paginationMode="server" // Indicar que la paginación es del lado del servidor
+        onPageChange={(newPage) => onPageChange(newPage)} // Callback al cambiar de página
+        onRowClick={(params) => onSelectTransaction(params.row)} // Selección de una fila
+        sx={{ height: 400, width: "100%" }}
+      />
+    </Box>
+  );
+}

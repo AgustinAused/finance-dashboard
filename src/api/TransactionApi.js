@@ -8,7 +8,7 @@ export const addTransaction = async (newTransaction) => {
         const cookieInstance = await cookies();
         const token = cookieInstance.get("access_token");
 
-        const response = await apiClient.post("/transactions/", newTransaction, {
+        const response = await apiClient.post("/api/transactions/", newTransaction, {
             headers: {
                 "Authorization": `Bearer ${token.value}`,
                 "Content-Type": "application/json",
@@ -21,20 +21,21 @@ export const addTransaction = async (newTransaction) => {
 }
 
 
-export const getTransactions = async (companyId) => {
+export const getTransactions = async (companyId, page = 0, pageSize = 10) => {
     try {
         const cookieInstance = await cookies();
         const token = cookieInstance.get("access_token");
 
-        const response = await apiClient.get("/transactions/" + companyId, {
+        const response = await apiClient.get(`/api/transactions/${companyId}?page=${page}&size=${pageSize}`, {
             headers: {
                 "Authorization": `Bearer ${token.value}`,
-                },
-                });
+            },
+        });
         return response.data;
     } catch (error) {
         console.error(error);
     }
-}
+};
+
 
 

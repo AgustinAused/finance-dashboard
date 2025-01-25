@@ -34,7 +34,7 @@ export default function Navbar() {
 
       <div className="flex items-center">
         {isLoggedIn ? (
-          <>
+          <div>
             <Link href="/dashboard" className="navbar-text">
               Dashboard
             </Link>
@@ -43,6 +43,12 @@ export default function Navbar() {
               className="navbar-text"
             >
               Profile
+            </Link>
+            <Link
+              href="/transactions"
+              className="navbar-text"
+            >
+              Transactions
             </Link>
             <MaterialUISwitchComponent
               isDarkMode={isDarkMode}
@@ -54,7 +60,7 @@ export default function Navbar() {
             >
               Logout
             </button>
-          </>
+          </div>
         ) : (
           <div>
             <MaterialUISwitchComponent
