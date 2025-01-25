@@ -3,7 +3,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { getCategories } from "@/api/CategoryApi";
 import { UserContext } from "@/context/UserContext";
 
-export default function CategorySelector({ formData, setFormData }) {
+export default function CategorySelector({ formData, setFormData, error }) {
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
     const { user } = useContext(UserContext);
@@ -13,7 +13,7 @@ export default function CategorySelector({ formData, setFormData }) {
             setLoading(true);
             try {
                 const response = await getCategories(user.company.id);
-                console.log(response.data)
+                console.log(response.data);
                 setCategories(response.data || []);
             } catch (error) {
                 console.error("Error al obtener categorías:", error);
@@ -45,6 +45,8 @@ export default function CategorySelector({ formData, setFormData }) {
                     label="Categoría"
                     variant="outlined"
                     fullWidth
+                    error={!!error} // Muestra error si existe
+                    helperText={error} // Muestra mensaje de error
                     sx={{ mb: 2 }}
                 />
             )}

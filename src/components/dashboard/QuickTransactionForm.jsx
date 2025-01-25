@@ -89,7 +89,12 @@ export default function QuickTransactionForm({
                     onChange={handleChange}
                     sx={{ mb: 2 }}
                 />
-                <CategorySelector formData={formData} setFormData={setFormData} />
+                <CategorySelector
+                    formData={formData}
+                    setFormData={setFormData}
+                    error={errors.category_id} // Pasa el mensaje de error específico
+                />
+                
                 <TextField
                     name="description"
                     label="Descripción"

@@ -18,7 +18,7 @@ export default function AddTransactionForm({ onSubmit, onCancel }) {
         user_id: 0,
     });
 
-    const [errors, setErrors] = useState({});
+     const [errors, setErrors] = useState({});
 
     const validateForm = () => {
         const newErrors = {};
@@ -96,7 +96,13 @@ export default function AddTransactionForm({ onSubmit, onCancel }) {
                     <MenuItem value="income">Ingreso</MenuItem>
                     <MenuItem value="expense">Egreso</MenuItem>
                 </TextField>
-                <CategorySelector formData={formData} setFormData={setFormData} />
+
+                {/* Campo de Categoría */}
+                <CategorySelector
+                    formData={formData}
+                    setFormData={setFormData}
+                    error={errors.category_id} // Pasa el mensaje de error específico
+                />
 
                 <TextField
                     name="description"
