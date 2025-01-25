@@ -13,7 +13,7 @@ export default function TransactionList({
 }){
   return (
     <Box sx={{ width: "100%" }}>
-      <div style={{ height: 400 }}>
+      <div style={{ height: 600 }}>
         {loading ? (
           <Box
             sx={{
