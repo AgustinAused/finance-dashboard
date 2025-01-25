@@ -15,7 +15,7 @@ export const UserProvider = ({ children }) => {
                 if (userData && userData.data) {
                     setUser(userData.data);
                 } else {
-                    console.error('No se encontró información del usuario');
+                    console.log('No se encontró información del usuario');
                 }
             } catch (error) {
                 console.log('Error al obtener los datos del usuario:', error);
