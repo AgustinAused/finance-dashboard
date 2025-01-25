@@ -10,6 +10,7 @@ import ChangePasswordModal from '@/components/dashboard/ChangePasswordModal';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import CustomSnackbar from '@/components/global/CustomSnackbar';
+import QuickTransactionForm from '@/components/dashboard/QuickTransactionForm';
 
 export default function Dashboard() {
   const [finances, setFinances] = useState({ income: 0, expenses: 0, netCashFlow: 0 });
@@ -22,6 +23,9 @@ export default function Dashboard() {
   const [snackbarMessage, setSnackbarMessage] = useState(''); // Mensaje del Snackbar
   const [snackbarSeverity, setSnackbarSeverity] = useState(''); // Tipo de mensaje
   const [errorMessage, setErrorMessage] = useState('');
+  const [showModalIncome, setShowModalIncome] = useState(false);
+  const [showModalExpense, setShowModalExpense] = useState(false);
+  const [showModalReports, setShowModalReports] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -78,38 +82,25 @@ export default function Dashboard() {
   };
 
 
-  const handleIncomeAdd = async (newTransaction) => {
+  const handleIncomeAdd = async (newTransaction) => setShowModalIncome(true);
+
+  const handleTransactionAdd = async (newTransaction) => {
     try {
-      const data = {
-        category_id: newTransaction.category_id,
-        user_id: newTransaction.user_id,
-        transaction_type: "income",
-        amount: newTransaction.amount,
-        date: newTransaction.date,
-      }
-      const response = await addTransaction(data);
-
-      // Configura y muestra el Snackbar de éxito
+      const response = await addTransaction(newTransaction);
       setSnackbarMessage('¡Transacción agregada con éxito!');
-      setSnackbarSeverity('success'); // Tipo de mensaje
-      setShowSnackbar(true); // Muestra la notificación
-
-      // recargar pagina 
+      setSnackbarSeverity('success');
+      setShowSnackbar(true);
       window.location.reload();
     } catch (error) {
-      console.error(error);
+      setSnackbarMessage('Error al agregar la transacción. Intenta de nuevo.');
+      setSnackbarSeverity('error');
+      setShowSnackbar(true);
     }
-  }
+  };
 
-  const handleExpenseAdd = async () => {
-    console.log('Add Expense');
-    // recargar pagina 
-    window.location.reload();
-  }
+  const handleExpenseAdd = async () => setShowModalExpense(true);
 
-  const handleReportsView = async () => {
-    console.log('View Reports');
-  }
+  const handleReportsView = async () => setShowModalReports(true);
 
 
   if (loading) {
@@ -145,11 +136,27 @@ export default function Dashboard() {
 
       {/* Modal de cambio de contraseña */}
       <ChangePasswordModal
-      open={showModal}
-      onClose={() => setShowModal(false)}
-      onSubmit={handlePasswordChange}
-      email={user.email}
-    />
+        open={showModal}
+        onClose={() => setShowModal(false)}
+        onSubmit={handlePasswordChange}
+        email={user.email}
+      />
+
+      {/* Quick Actions */}
+      <QuickTransactionForm
+        title="Agregar Ingreso"
+        transactionType="income"
+        onSubmit={handleTransactionAdd}
+        onCancel={() => setShowModalIncome(false)} // Corregido
+        open={showModalIncome}
+      />
+      <QuickTransactionForm
+        title="Agregar Gasto"
+        transactionType="expense"
+        onSubmit={handleTransactionAdd}
+        onCancel={() => setShowModalExpense(false)} // Corregido
+        open={showModalExpense}
+      />
 
       {/* Alerta de éxito */}
       <CustomSnackbar

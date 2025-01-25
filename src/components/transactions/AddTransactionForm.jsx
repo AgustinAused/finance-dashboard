@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import CategorySelector from "../global/CategorySelector";
-import { Box, TextField, Button, MenuItem } from "@mui/material";
+import { Box, TextField, Button, MenuItem, Typography } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFnsV3";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -68,11 +68,15 @@ export default function AddTransactionForm({ onSubmit, onCancel }) {
     return (
         <LocalizationProvider dateAdapter={AdapterDateFns} locale={esLocale}>
             <Box component="form" sx={{ p: 3 }} onSubmit={handleSubmit}>
+                <Typography variant="h6" component="h2">
+                    Agregar Transacción
+                </Typography>
                 <DatePicker
                     label="Fecha"
                     value={formData.date}
                     onChange={handleDateChange}
                     renderInput={(params) => <TextField {...params} fullWidth />}
+                    sx={{ mb: 2 }}
                 />
 
                 <TextField

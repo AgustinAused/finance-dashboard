@@ -3,6 +3,7 @@ import CategorySelector from "@/components/global/CategorySelector";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFnsV3";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { TextField, Modal, Box, Button, Typography } from "@mui/material";
 import esLocale from "date-fns/locale/es";
 
 export default function QuickTransactionForm({
@@ -10,6 +11,7 @@ export default function QuickTransactionForm({
     transactionType,
     onSubmit,
     onCancel,
+    open
 }) {
     const [formData, setFormData] = useState({
         date: null,
@@ -69,7 +71,22 @@ export default function QuickTransactionForm({
     
     return (
         <LocalizationProvider dateAdapter={AdapterDateFns} locale={esLocale}>
-            <Box component="form" sx={{ p: 3 }} onSubmit={handleSubmit}>
+            <Modal open={open}  onClose={onCancel}>
+                <Box
+                    component="form"
+                    sx={{
+                        position: "absolute",
+                        top: "50%",
+                        left: "50%",
+                        transform: "translate(-50%, -50%)",
+                        width: 400,
+                        bgcolor: "background.paper",
+                        borderRadius: 2,
+                        boxShadow: 24,
+                        p:3
+                    }}
+                    onSubmit={handleSubmit}
+                >
                 <Typography variant="h6" component="h2">
                     {title}
                 </Typography>
@@ -78,6 +95,7 @@ export default function QuickTransactionForm({
                     value={formData.date}
                     onChange={handleDateChange}
                     renderInput={(params) => <TextField {...params} fullWidth />}
+                    sx={{ mb: 2 }}
                 />
 
                 <TextField
@@ -114,6 +132,7 @@ export default function QuickTransactionForm({
                     </Button>
                 </Box>
             </Box>
+            </Modal>
         </LocalizationProvider>
     );
 }
