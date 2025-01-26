@@ -149,6 +149,8 @@ export default function Dashboard() {
         onSubmit={handleTransactionAdd}
         onCancel={() => setShowModalIncome(false)} // Corregido
         open={showModalIncome}
+        userId={user.id}
+        companyId={user.company.id}
       />
       <QuickTransactionForm
         title="Agregar Gasto"
@@ -156,6 +158,8 @@ export default function Dashboard() {
         onSubmit={handleTransactionAdd}
         onCancel={() => setShowModalExpense(false)} // Corregido
         open={showModalExpense}
+        userId={user.id}
+        companyId={user.company.id}
       />
 
       {/* Alerta de éxito */}

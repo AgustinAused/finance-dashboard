@@ -16,9 +16,8 @@ export default function AddCategoryForm({ onCategoryAdded, onCancel, companyId }
             setError("Category name is required");
             return false;
         }
-        if (newCategory.description.trim() === "") {
-            setError("Category description is required");
-            return false;
+        if (newCategory.description.trim() === ""){
+            newCategory.description = null;
         }
         return true;
     }

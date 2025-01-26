@@ -38,8 +38,7 @@ export default function CategorySelector({ formData, setFormData, error }) {
     const handleCategoryAdded = (newCategory) => {
         setCategories((prev) => [...prev, newCategory]); 
         setFormData((prev) => ({ ...prev, category_id: newCategory.id })); 
-        setErrors((prev) => ({ ...prev, category_id: "" })); 
-        setOpenAddCategory(false); 
+        setOpenAddCategory(false);
     };
 
     return (

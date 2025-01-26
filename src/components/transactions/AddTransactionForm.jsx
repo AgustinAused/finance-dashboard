@@ -26,6 +26,7 @@ export default function AddTransactionForm({ onSubmit, onCancel, companyId, user
         if (!formData.amount || isNaN(formData.amount) || Number(formData.amount) <= 0) {
             newErrors.amount = "Por favor ingresa un monto válido mayor a 0.";
         }
+        if (!formData.transaction_type) newErrors.transaction_type = "Por favor selecciona un tipo de transaccion.";
         if (!formData.description.trim()) newErrors.description = "La descripción no puede estar vacía.";
         if (!formData.category_id) newErrors.category_id = "Por favor selecciona una categoría.";
         setErrors(newErrors);
