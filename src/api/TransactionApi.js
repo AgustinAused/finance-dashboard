@@ -8,6 +8,8 @@ export const addTransaction = async (newTransaction) => {
         const cookieInstance = await cookies();
         const token = cookieInstance.get("access_token");
 
+        console.log(newTransaction);
+
         const response = await apiClient.post("/api/transactions/", newTransaction, {
             headers: {
                 "Authorization": `Bearer ${token.value}`,

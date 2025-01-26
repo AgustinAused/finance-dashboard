@@ -61,7 +61,7 @@ export default function TransactionsPage() {
 
     const handleCreateTransaction = async (formData) => {
         try {
-            const response = await addTransaction(user.company.id, formData);
+            const response = await addTransaction(formData);
             if (response.status === "success") {
                 setTransactions((prev) => [response.data, ...prev]);
                 setShowForm(false);
@@ -154,6 +154,8 @@ export default function TransactionsPage() {
                     <AddTransactionForm
                         onSubmit={handleCreateTransaction}
                         onCancel={() => setShowForm(false)}
+                        userId={user.id}
+                        companyId={user.company.id}
                     />
                 </Box>
             </Modal>

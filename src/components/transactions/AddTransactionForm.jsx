@@ -5,87 +5,83 @@ import { Box, TextField, Button, MenuItem, Typography } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFnsV3";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import esLocale from "date-fns/locale/es";
+// import esLocale from "date-fns/locale/es";
 
-export default function AddTransactionForm({ onSubmit, onCancel }) {
+export default function AddTransactionForm({ onSubmit, onCancel, companyId, userId }) {
     const [formData, setFormData] = useState({
-        date: null,
+        company_id: companyId,
+        category_id: null,
+        user_id: userId,
         amount: "",
+        date: null,
         transaction_type: "",
         description: "",
-        category_id: null,
-        company_id: 0,
-        user_id: 0,
     });
 
-     const [errors, setErrors] = useState({});
+    const [errors, setErrors] = useState({});
 
     const validateForm = () => {
         const newErrors = {};
-
-        // Validación de fecha
-        if (!formData.date) {
-            newErrors.date = "La fecha es requerida.";
-        }
-
-        // Validación de monto
+        if (!formData.date) newErrors.date = "La fecha es requerida.";
         if (!formData.amount || isNaN(formData.amount) || Number(formData.amount) <= 0) {
             newErrors.amount = "Por favor ingresa un monto válido mayor a 0.";
         }
-
-        // Validación de descripción
-        if (!formData.description.trim()) {
-            newErrors.description = "La descripción no puede estar vacía.";
-        }
-
-        // Validación de categoría
-        if (!formData.category_id) {
-            newErrors.category_id = "Por favor selecciona una categoría.";
-        }
-
+        if (!formData.description.trim()) newErrors.description = "La descripción no puede estar vacía.";
+        if (!formData.category_id) newErrors.category_id = "Por favor selecciona una categoría.";
         setErrors(newErrors);
-        return Object.keys(newErrors).length === 0; // Retorna true si no hay errores
+        return Object.keys(newErrors).length === 0;
     };
 
     const handleDateChange = (newDate) => {
-        setFormData({ ...formData, date: newDate });
-        setErrors((prev) => ({ ...prev, date: "" })); // Limpia el error si existe
+        setFormData({ ...formData, date: newDate?.toISOString() });
+        setErrors((prev) => ({ ...prev, date: "" }));
     };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
-        setErrors((prev) => ({ ...prev, [name]: "" })); // Limpia el error del campo
+        setErrors((prev) => ({ ...prev, [name]: "" }));
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
         if (validateForm()) {
+            const sanitizedData = {
+                ...formData,
+                amount: parseFloat(formData.amount), // Convierte a número decimal
+            };
+            console.log(sanitizedData);
+            console.log(formData);
+
             onSubmit(formData);
         }
     };
 
     return (
-        <LocalizationProvider dateAdapter={AdapterDateFns} locale={esLocale}>
+        <LocalizationProvider dateAdapter={AdapterDateFns} l>
             <Box component="form" sx={{ p: 3 }} onSubmit={handleSubmit}>
-                <Typography variant="h6" component="h2" sx={{mb: 2}}>
+                <Typography variant="h6" component="h2" sx={{ mb: 2 }}>
                     Agregar Transacción
                 </Typography>
                 <DatePicker
                     label="Fecha"
-                    value={formData.date}
+                    value={formData.date ? new Date(formData.date) : null}
                     onChange={handleDateChange}
-                    renderInput={(params) => <TextField {...params} fullWidth />}
+                    renderInput={(params) => (
+                        <TextField {...params} fullWidth error={Boolean(errors.date)} helperText={errors.date} />
+                    )}
                     sx={{ mb: 2 }}
                 />
-
                 <TextField
                     name="amount"
                     label="Monto"
                     type="number"
+                    step="0.01"
                     fullWidth
                     value={formData.amount}
                     onChange={handleChange}
+                    error={Boolean(errors.amount)}
+                    helperText={errors.amount}
                     sx={{ mb: 2 }}
                 />
                 <TextField
@@ -95,19 +91,18 @@ export default function AddTransactionForm({ onSubmit, onCancel }) {
                     fullWidth
                     value={formData.transaction_type}
                     onChange={handleChange}
+                    error={Boolean(errors.transaction_type)}
+                    helperText={errors.transaction_type}
                     sx={{ mb: 2 }}
                 >
                     <MenuItem value="income">Ingreso</MenuItem>
                     <MenuItem value="expense">Egreso</MenuItem>
                 </TextField>
-
-                {/* Campo de Categoría */}
                 <CategorySelector
                     formData={formData}
                     setFormData={setFormData}
-                    error={errors.category_id} // Pasa el mensaje de error específico
+                    error={errors.category_id}
                 />
-
                 <TextField
                     name="description"
                     label="Descripción"
@@ -116,6 +111,8 @@ export default function AddTransactionForm({ onSubmit, onCancel }) {
                     fullWidth
                     value={formData.description}
                     onChange={handleChange}
+                    error={Boolean(errors.description)}
+                    helperText={errors.description}
                     sx={{ mb: 2 }}
                 />
                 <Box sx={{ display: "flex", gap: 2, justifyContent: "flex-end" }}>

@@ -20,3 +20,18 @@ export async function getCategories(companyId){
     }
 }
 
+export async function addCategory(newCategory) {
+    try{
+        const cookiesInstance = await cookies();
+        const token = cookiesInstance.get('access_token');
+
+        const response = await apiClient.post('/api/categories/', newCategory, {
+            headers: {
+                'Authorization': `Bearer ${token.value}`,
+            }
+            });
+        return response.data;
+    } catch (error) {
+        console.error(error);
+    }
+}
