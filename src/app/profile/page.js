@@ -32,7 +32,6 @@ export default function ProfilePage() {
                 console.error("User data not found");
             }
         };
-
         fetchUserProfile();
     }, [setUser]);
 
