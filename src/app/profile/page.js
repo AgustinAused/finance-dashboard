@@ -27,7 +27,7 @@ export default function ProfilePage() {
         const fetchUserProfile = async () => {
             const userData = await getProfile();
             if (userData && userData.data) {
-                setUser(userData.data); // Aquí debes definir un método para actualizar el usuario en el contexto.
+                setUser(userData.data); 
             } else {
                 console.error("User data not found");
             }

@@ -68,7 +68,7 @@ export default function AddTransactionForm({ onSubmit, onCancel }) {
     return (
         <LocalizationProvider dateAdapter={AdapterDateFns} locale={esLocale}>
             <Box component="form" sx={{ p: 3 }} onSubmit={handleSubmit}>
-                <Typography variant="h6" component="h2">
+                <Typography variant="h6" component="h2" sx={{mb: 2}}>
                     Agregar Transacción
                 </Typography>
                 <DatePicker

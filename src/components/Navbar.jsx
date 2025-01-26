@@ -20,7 +20,8 @@ export default function Navbar() {
 
   return (
     <div className="bg-gray-800 p-4 flex justify-between items-center">
-      <div className="navbar-title">
+    {/* <div className=""> */}
+    <div className="navbar-title">
         {isLoggedIn ? (
           <Link href="/dashboard">
             <p className="">Logo</p>
@@ -49,7 +50,8 @@ export default function Navbar() {
           >
             Transactions
           </Link>
-        </div>
+        </div> 
+
         ) : (
           <div>
           </div>

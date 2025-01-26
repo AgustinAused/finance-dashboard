@@ -87,7 +87,7 @@ export default function QuickTransactionForm({
                     }}
                     onSubmit={handleSubmit}
                 >
-                <Typography variant="h6" component="h2">
+                <Typography variant="h6" component="h2" sx={{mb: 2}}>
                     {title}
                 </Typography>
                 <DatePicker
